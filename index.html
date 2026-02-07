@@ -3,12 +3,12 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <title>For Riya 💖</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="styles.css">
@@ -17,28 +17,24 @@
 
 <body>
 
-<!-- ================= BACKGROUND ================= -->
 
+<!-- BACKGROUND -->
 <div id="heartRain"></div>
 <div id="bgGlow"></div>
 
 
-<!-- ================= AUDIO ================= -->
+<!-- AUDIO -->
+<audio id="bgAudio" src="assets/Background.webm" loop></audio>
+<audio id="bklAudio" src="assets/BKL.webm" loop></audio>
 
-<audio id="bgAudio" src="assets/Background.webm" loop preload="auto"></audio>
-<audio id="bklAudio" src="assets/BKL.webm" loop preload="auto"></audio>
 
-
-<!-- ================= VIDEO BOX ================= -->
-
+<!-- VIDEO BOX -->
 <div id="videoBox">
 
-  <!-- Important: playsinline prevents fullscreen on mobile -->
   <video id="wnVideo"
          src="assets/WN.mp4"
          playsinline
-         webkit-playsinline
-         controlslist="nodownload nofullscreen noremoteplayback">
+         webkit-playsinline>
   </video>
 
   <video id="mkcVideo"
@@ -46,27 +42,21 @@
          muted
          loop
          playsinline
-         webkit-playsinline
-         controlslist="nodownload nofullscreen noremoteplayback">
+         webkit-playsinline>
   </video>
 
 </div>
 
 
-<!-- ================= POPUP ================= -->
-
+<!-- POPUP -->
 <div id="bubble"></div>
 
 
-<!-- ================= MAIN APP ================= -->
-
+<!-- MAIN -->
 <div id="app">
 
 
-<!-- ================================================= -->
-<!-- ================= SCREEN 1 ===================== -->
-<!-- ================================================= -->
-
+<!-- SCREEN 1 -->
 <section class="screen active" id="s1">
 
   <h2 class="fadeText">
@@ -84,18 +74,15 @@
 
   <div class="btns fadeText delay3">
 
-    <button class="yesBtn" onclick="yes1()">Yes</button>
-    <button class="noBtn" id="no1" onclick="no1()">No</button>
+    <button id="yes1" class="yesBtn" onclick="yes1()">Yes</button>
+    <button id="no1" class="noBtn" onclick="no1()">No</button>
 
   </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- ================= SCREEN 2 ===================== -->
-<!-- ================================================= -->
-
+<!-- SCREEN 2 -->
 <section class="screen" id="s2">
 
   <h2 class="typeText"
@@ -104,18 +91,15 @@
 
   <div class="btns">
 
-    <button class="yesBtn" onclick="yes2()">Yes</button>
-    <button class="noBtn" id="no2" onclick="no2()">No</button>
+    <button id="yes2" class="yesBtn" onclick="yes2()">Yes</button>
+    <button id="no2" class="noBtn" onclick="no2()">No</button>
 
   </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- ================= SCREEN 3 ===================== -->
-<!-- ================================================= -->
-
+<!-- SCREEN 3 -->
 <section class="screen" id="s3">
 
   <h2 class="typeText"
@@ -123,34 +107,30 @@
   </h2>
 
   <h3 class="fadeText delay2">
-    Will you be my Valentine?
-    <br>(Just for one day 🥺👉👈)
+    Will you be my Valentine?<br>
+    (Just for one day 🥺👉👈)
   </h3>
 
   <div class="btns fadeText delay3">
 
-    <button class="yesBtn" onclick="yes3()">Yes</button>
-    <button class="noBtn" id="no3" onclick="no3()">No</button>
+    <button id="yes3" class="yesBtn" onclick="yes3()">Yes</button>
+    <button id="no3" class="noBtn" onclick="no3()">No</button>
 
   </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- ================= SCREEN 4 (SLIDER) ============= -->
-<!-- ================================================= -->
-
+<!-- SCREEN 4 -->
 <section class="screen" id="s4">
 
   <h2 class="fadeText">
     Unlock My Valentine World 💖✨
   </h2>
 
-  <p class="fadeText delay1" id="sliderMsg">
+  <p id="sliderMsg" class="fadeText delay1">
     Slide with love 😌
   </p>
-
 
   <div id="sliderBox">
 
@@ -161,22 +141,16 @@
            value="0">
 
     <div id="sliderGlow"></div>
-
-    <!-- Explosion Ring -->
     <div id="sliderRing"></div>
 
   </div>
-
 
   <p id="sliderText">0%</p>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- ================= SCREEN 5 ===================== -->
-<!-- ================================================= -->
-
+<!-- SCREEN 5 -->
 <section class="screen" id="s5">
 
   <h1 class="bigGlow">
@@ -186,28 +160,20 @@
 </section>
 
 
-<!-- ================================================= -->
-<!-- ================= SCREEN 6 ===================== -->
-<!-- ================================================= -->
-
+<!-- SCREEN 6 -->
 <section class="screen" id="s6">
-
 
   <div id="finalOverlay">
 
-    <p>
-      And yes… we are certainly going on a date soon,<br>
-      <b>Shotu baby 😌💖</b><br>
-      — Raj
-    </p>
+    And yes… we are certainly going on a date soon,<br>
+    <b>Shotu baby 😌💖</b><br>
+    — Raj
 
   </div>
-
 
   <button id="replayBtn" onclick="replay()">
     🔁 Replay
   </button>
-
 
 </section>
 
