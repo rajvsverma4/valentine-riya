@@ -38,11 +38,24 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+/* ================= FULL MOBILE PRIMING (FIXED) ================= */
 function unlockAudio(){
     document.body.addEventListener("click", () => {
         if(!audioUnlocked){
+            // 1. Play background music
             bgAudio.volume = 0.4;
             bgAudio.play().catch(()=>{});
+
+            // 2. Full Media Prime (Load + Silent Play)
+            wnVideo.load();
+            mkcVideo.load();
+            bklAudio.load();
+            
+            // Unlocks all media for mobile browsers
+            wnVideo.play().then(() => wnVideo.pause()).catch(()=>{});
+            mkcVideo.play().then(() => mkcVideo.pause()).catch(()=>{});
+            bklAudio.play().then(() => bklAudio.pause()).catch(()=>{});
+
             audioUnlocked = true;
         }
     }, { once: true });
@@ -201,7 +214,7 @@ function explodeRing(){
     }, 900);
 }
 
-/* ================= VIDEO (MOBILE STABLE) ================= */
+/* ================= VIDEO (UNMUTED MOBILE) ================= */
 function startPrank(){
     if(prankStarted) return;
     prankStarted = true;
@@ -222,20 +235,22 @@ function playWN(){
     if(videoLoader) videoLoader.style.display = "none";
     wnVideo.style.display="block";
     
-    // Explicit load and play for mobile stability
-    wnVideo.load();
+    wnVideo.muted = false;
+    wnVideo.volume = 1.0;
+
     let p = wnVideo.play();
     if (p !== undefined) {
         p.catch(() => { 
-            wnVideo.muted = true; // Fallback for strict mobile browsers
+            wnVideo.muted = true; 
             wnVideo.play(); 
         });
     }
 
     wnVideo.onended = () => {
         wnVideo.style.display="none";
+        bklAudio.muted = false;
         bklAudio.volume = 0;
-        bklAudio.play();
+        bklAudio.play().catch(()=>{});
         crossFadeAudio();
         startEnding();
     };
@@ -252,7 +267,7 @@ function crossFadeAudio(){
 
 function startEnding(){
     mkcVideo.style.display="block";
-    mkcVideo.load();
+    mkcVideo.muted = false;
     mkcVideo.play().catch(() => {
         mkcVideo.muted = true;
         mkcVideo.play();
@@ -260,6 +275,7 @@ function startEnding(){
     startFinalHearts();
     setTimeout(() => {
         videoOverlay.style.display="flex";
+        videoOverlay.style.animation = "pop 0.5s ease forwards";
     }, 4000);
 }
 
