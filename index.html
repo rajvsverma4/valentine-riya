@@ -22,14 +22,14 @@
         <video id="wnVideo" src="assets/WN.mp4" preload="auto" playsinline webkit-playsinline></video>
         <video id="mkcVideo" src="assets/MKC.mp4" preload="auto" muted loop playsinline webkit-playsinline></video>
         
-        <div id="videoOverlay" class="screen" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; max-width: 340px; z-index: 500; padding: 25px; flex-direction: column; align-items: center; text-align: center;">
-            <p style="margin-bottom: 15px; color: #ff2e6f; line-height: 1.6;">
+        <div id="videoOverlay">
+            <p>
                 And yes… we are certainly going on a date soon,<br>
-                <b style="font-size: 1.2rem;">Shotu baby 😌💖</b><br>
+                <b style="color: #ff2e6f; font-size: 1.2rem;">Shotu baby 😌💖</b><br>
                 — Raj 💖
             </p>
             <div class="btns">
-                <button onclick="replay()" style="padding: 10px 25px;">🔁 Replay</button>
+                <button onclick="replay()">🔁 Replay</button>
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
             <button class="yesBtn" onclick="yes2()">Yes</button>
             <button class="noBtn" onclick="no2()">No</button>
         </div>
-        <button onclick="show('s1')" style="background:none; color:#ff8fab; box-shadow:none; font-size:12px; margin-top:10px; opacity:0.8;">← Back</button>
+        <button onclick="show('s1')" class="backBtn">← Back</button>
     </section>
 
     <section class="screen" id="s3">
@@ -66,7 +66,7 @@
             <button class="yesBtn" onclick="yes3()">Yes</button>
             <button class="noBtn" onclick="no3()">No</button>
         </div>
-        <button onclick="show('s2')" style="background:none; color:#ff8fab; box-shadow:none; font-size:12px; margin-top:10px; opacity:0.8;">← Back</button>
+        <button onclick="show('s2')" class="backBtn">← Back</button>
     </section>
 
     <section class="screen" id="s4">
