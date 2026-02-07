@@ -1,264 +1,253 @@
 /* ================= RESET ================= */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Poppins",sans-serif;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
 }
 
-body {
-  background: radial-gradient(circle at top, #ffd1dc, #ff9eb8, #ff7aa2);
+body{
+  background:radial-gradient(circle at top,#ffd1dc,#ff9eb8,#ff7aa2);
 }
 
 
 /* ================= BACKGROUND ================= */
 
-#bgGlow {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(
+#bgGlow{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(
     circle at center,
     rgba(255,255,255,0.2),
     transparent 70%
   );
-  animation: pulse 6s infinite alternate;
-  z-index: 0;
+  animation:pulse 6s infinite alternate;
+  z-index:0;
 }
 
-@keyframes pulse {
-  from { opacity: 0.4; }
-  to   { opacity: 0.8; }
+@keyframes pulse{
+  from{opacity:.4}
+  to{opacity:.8}
 }
 
-#heartRain {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 1;
+#heartRain{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
 }
 
-.heart {
-  position: absolute;
-  top: -40px;
-  animation: fall linear infinite;
-  opacity: 0.85;
+.heart{
+  position:absolute;
+  top:-40px;
+  animation:fall linear infinite;
+  opacity:.85;
 }
 
-@keyframes fall {
-  from {
-    transform: translateY(-40px) rotate(0deg);
-  }
-  to {
-    transform: translateY(110vh) rotate(360deg);
-  }
+@keyframes fall{
+  from{transform:translateY(-40px) rotate(0deg)}
+  to{transform:translateY(110vh) rotate(360deg)}
 }
 
 
 /* ================= MAIN APP ================= */
 
-#app {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
+#app{
+  position:relative;
+  width:100%;
+  height:100%;
+  z-index:10;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 
-  padding: 15px;
+  padding:15px;
 }
 
 
 /* ================= SCREENS ================= */
 
-.screen {
-  display: none;
-  flex-direction: column;
-  gap: 18px;
+.screen{
+  display:none;
+  flex-direction:column;
+  gap:18px;
 
-  background: rgba(255,255,255,0.97);
-  padding: 26px 22px;
-  border-radius: 24px;
+  background:rgba(255,255,255,0.97);
+  padding:26px 22px;
+  border-radius:24px;
 
-  width: 100%;
-  max-width: 380px;
+  width:100%;
+  max-width:380px;
 
-  text-align: center;
+  text-align:center;
 
   box-shadow:
     0 0 25px rgba(255,0,90,0.25),
     0 0 60px rgba(255,0,120,0.15);
 
-  position: relative;
-  z-index: 20;
+  position:relative;
+  z-index:20;
 
-  animation: pop 0.4s ease;
+  animation:pop .4s ease;
 }
 
-@keyframes pop {
-  from {
-    transform: scale(0.92);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+@keyframes pop{
+  from{transform:scale(.92);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 
-.screen.active {
-  display: flex;
+.screen.active{
+  display:flex;
 }
 
 
 /* ================= TEXT ================= */
 
-h1, h2, h3, p {
-  color: #ff2e6f;
-  line-height: 1.5;
+h1,h2,h3,p{
+  color:#ff2e6f;
+  line-height:1.5;
 }
 
-h1 { font-size: 1.8rem; font-weight: 700; }
-h2 { font-size: 1.2rem; font-weight: 600; }
-h3 { font-size: 1.05rem; font-weight: 500; }
-p  { font-size: 0.95rem; }
+h1{font-size:1.8rem;font-weight:700}
+h2{font-size:1.2rem;font-weight:600}
+h3{font-size:1.05rem;font-weight:500}
+p{font-size:.95rem}
 
 
 /* ================= FADE ================= */
 
-.fadeText {
-  opacity: 0;
-  animation: fade 1s forwards;
+.fadeText{
+  opacity:0;
+  animation:fade 1s forwards;
 }
 
-.delay1 { animation-delay: 0.5s; }
-.delay2 { animation-delay: 1s; }
-.delay3 { animation-delay: 1.5s; }
+.delay1{animation-delay:.5s}
+.delay2{animation-delay:1s}
+.delay3{animation-delay:1.5s}
 
-@keyframes fade {
-  to { opacity: 1; }
+@keyframes fade{
+  to{opacity:1}
 }
 
 
 /* ================= BUTTONS ================= */
 
-.btns {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
+.btns{
+  display:flex;
+  justify-content:center;
+  gap:16px;
 
-  position: relative;
-  z-index: 30;
+  position:relative;
+  z-index:30;
 }
 
-button {
-  background: linear-gradient(135deg, #ff3b6f, #ff8fab);
-  color: white;
+button{
+  background:linear-gradient(135deg,#ff3b6f,#ff8fab);
+  color:white;
 
-  border: none;
-  border-radius: 30px;
+  border:none;
+  border-radius:30px;
 
-  padding: 10px 22px;
-  font-size: 15px;
-  font-weight: 500;
+  padding:10px 22px;
+  font-size:15px;
+  font-weight:500;
 
-  cursor: pointer;
+  cursor:pointer;
 
   box-shadow:
     0 0 12px rgba(255,79,124,0.6),
     inset 0 0 5px rgba(255,255,255,0.4);
 
-  transition: all 0.25s ease;
+  transition:.25s;
 
-  position: relative;
-  z-index: 35;
+  position:relative;
+  z-index:35;
 }
 
-button:hover {
-  transform: scale(1.12);
-  box-shadow: 0 0 25px rgba(255,79,124,0.9);
+button:hover{
+  transform:scale(1.12);
+  box-shadow:0 0 25px rgba(255,79,124,.9);
 }
 
-button:active {
-  transform: scale(0.95);
+button:active{
+  transform:scale(.95);
 }
 
 
 /* YES PULSE */
 
-.yesPulse {
-  animation: yesPulse 0.5s;
+.yesPulse{
+  animation:yesPulse .5s;
 }
 
-@keyframes yesPulse {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.25); }
-  100% { transform: scale(1); }
+@keyframes yesPulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.25)}
+  100%{transform:scale(1)}
 }
 
 
 /* ================= POPUP ================= */
 
-#bubble {
-  position: fixed;
+#bubble{
+  position:fixed;
 
-  padding: 8px 14px;
+  padding:8px 14px;
 
-  background: white;
-  border-radius: 18px;
+  background:white;
+  border-radius:18px;
 
-  font-size: 13px;
-  font-weight: 600;
+  font-size:13px;
+  font-weight:600;
 
-  color: #ff245a;
+  color:#ff245a;
 
-  box-shadow: 0 0 18px rgba(255,105,135,0.9);
+  box-shadow:0 0 18px rgba(255,105,135,.9);
 
-  pointer-events: none;
+  pointer-events:none;
 
-  opacity: 0;
-  transform: translateX(-50%) scale(0.7);
+  opacity:0;
+  transform:translateX(-50%) scale(.7);
 
-  transition: all 0.25s ease;
+  transition:.25s;
 
-  z-index: 9999;
+  z-index:9999;
 
-  white-space: nowrap;
+  white-space:nowrap;
 }
 
-#bubble.show {
-  opacity: 1;
-  transform: translateX(-50%) scale(1.05);
+#bubble.show{
+  opacity:1;
+  transform:translateX(-50%) scale(1.05);
 }
 
 
 /* ================= SLIDER ================= */
 
-#sliderBox {
-  position: relative;
-  width: 100%;
-  margin: 18px 0;
-
-  z-index: 30;
+#sliderBox{
+  position:relative;
+  width:100%;
+  margin:18px 0;
+  z-index:30;
 }
 
-#slider {
-  width: 100%;
-  height: 28px;
+#slider{
+  width:100%;
+  height:28px;
 
-  appearance: none;
-  border-radius: 25px;
+  appearance:none;
+  border-radius:25px;
 
-  background: linear-gradient(
+  background:linear-gradient(
     90deg,
     #ff004c,
     #ff4f7c,
@@ -266,191 +255,233 @@ button:active {
     #ff004c
   );
 
-  background-size: 300% 100%;
-  animation: flow 3.5s linear infinite;
+  background-size:300% 100%;
+  animation:flow 3.5s linear infinite;
 
-  outline: none;
+  outline:none;
 
-  box-shadow: 0 0 16px rgba(255,0,80,0.7);
+  box-shadow:0 0 16px rgba(255,0,80,.7);
 }
 
-@keyframes flow {
-  to { background-position: 300% 0; }
+@keyframes flow{
+  to{background-position:300% 0}
 }
 
-#slider::-webkit-slider-thumb {
-  appearance: none;
+#slider::-webkit-slider-thumb{
+  appearance:none;
 
-  width: 34px;
-  height: 34px;
+  width:34px;
+  height:34px;
 
-  border-radius: 50%;
+  border-radius:50%;
 
-  background: radial-gradient(circle, #fff, #ff004c);
+  background:radial-gradient(circle,#fff,#ff004c);
 
-  border: 2px solid white;
+  border:2px solid white;
 
   box-shadow:
     0 0 20px #ff004c,
     0 0 35px pink;
 
-  cursor: pointer;
+  cursor:pointer;
 }
 
-#slider::-moz-range-thumb {
-  width: 34px;
-  height: 34px;
+#slider::-moz-range-thumb{
+  width:34px;
+  height:34px;
 
-  border-radius: 50%;
+  border-radius:50%;
 
-  background: #ff004c;
-  border: 2px solid white;
+  background:#ff004c;
+  border:2px solid white;
 }
 
 
 /* Glow */
 
-#sliderGlow {
-  position: absolute;
-  inset: -8px;
+#sliderGlow{
+  position:absolute;
+  inset:-8px;
 
-  border-radius: 28px;
+  border-radius:28px;
 
-  background: radial-gradient(
+  background:radial-gradient(
     circle,
-    rgba(255,0,80,0.45),
+    rgba(255,0,80,.45),
     transparent 70%
   );
 
-  opacity: 0;
-  pointer-events: none;
+  opacity:0;
+  pointer-events:none;
 }
 
 
 /* Explosion Ring */
 
-#sliderRing {
-  position: absolute;
+#sliderRing{
+  position:absolute;
 
-  top: 50%;
-  left: 50%;
+  top:50%;
+  left:50%;
 
-  width: 20px;
-  height: 20px;
+  width:20px;
+  height:20px;
 
-  border: 3px solid rgba(255,0,90,0.9);
-  border-radius: 50%;
+  border:3px solid rgba(255,0,90,.9);
+  border-radius:50%;
 
-  transform: translate(-50%, -50%);
+  transform:translate(-50%,-50%);
 
-  display: none;
+  display:none;
 
-  pointer-events: none;
+  pointer-events:none;
 }
 
-.ringBoom {
-  animation: ringBoom 0.8s ease-out forwards;
+.ringBoom{
+  animation:ringBoom .8s ease-out forwards;
 }
 
-@keyframes ringBoom {
-  from {
-    width: 20px;
-    height: 20px;
-    opacity: 1;
+@keyframes ringBoom{
+  from{
+    width:20px;
+    height:20px;
+    opacity:1;
   }
-  to {
-    width: 260px;
-    height: 260px;
-    opacity: 0;
+  to{
+    width:260px;
+    height:260px;
+    opacity:0;
   }
 }
 
 
 /* ================= VIDEO BOX ================= */
 
-#videoBox {
-  position: fixed;
+#videoBox{
+  position:fixed;
 
-  top: 50%;
-  left: 50%;
+  top:50%;
+  left:50%;
 
-  transform: translate(-50%, -50%);
+  transform:translate(-50%,-50%);
 
-  width: 90%;
-  max-width: 360px;
+  width:90%;
+  max-width:360px;
 
-  aspect-ratio: 16 / 9;
+  aspect-ratio:16/9;
 
-  background: black;
+  background:black;
 
-  border-radius: 18px;
+  border-radius:18px;
 
-  overflow: hidden;
+  overflow:hidden;
 
-  display: none;
+  display:none;
 
-  box-shadow: 0 0 35px rgba(255,0,90,0.7);
+  box-shadow:0 0 35px rgba(255,0,90,.7);
 
-  z-index: 200;
+  z-index:200;
 }
 
-#videoBox video {
-  width: 100%;
-  height: 100%;
+#videoBox video{
+  width:100%;
+  height:100%;
 
-  object-fit: cover;
+  object-fit:cover;
 
-  display: block;
+  display:block;
 }
 
 
-/* ================= FINAL ================= */
+/* ================= VIDEO OVERLAY ================= */
 
-#finalOverlay {
-  background: rgba(0,0,0,0.7);
+#videoOverlay{
+  position:absolute;
+  bottom:0;
+  left:0;
 
-  color: white;
+  width:100%;
+  min-height:35%;
 
-  padding: 14px 18px;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.85),
+    rgba(0,0,0,.4),
+    transparent
+  );
 
-  border-radius: 16px;
+  color:white;
 
-  font-size: 14px;
+  display:none; /* JS controls */
 
-  margin-bottom: 12px;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 
-  animation: fade 1.5s forwards;
+  text-align:center;
 
-  z-index: 40;
+  padding:15px 12px;
+
+  z-index:500;
 }
 
-#replayBtn {
-  background: linear-gradient(135deg, #ff2f66, #ff9eb8);
 
-  padding: 10px 26px;
+/* Overlay Text */
 
-  font-size: 15px;
-  font-weight: 500;
+#videoOverlay p{
+  font-size:14px;
+  line-height:1.5;
 
-  z-index: 45;
+  margin-bottom:12px;
+
+  text-shadow:0 0 8px rgba(255,255,255,.3);
+}
+
+
+/* Overlay Button */
+
+#videoOverlay button{
+  background:linear-gradient(135deg,#ff3b6f,#ff9eb8);
+
+  border:none;
+  border-radius:25px;
+
+  padding:8px 20px;
+
+  font-size:14px;
+  font-weight:600;
+
+  color:white;
+
+  cursor:pointer;
+
+  box-shadow:0 0 15px rgba(255,0,90,.7);
+
+  transition:.25s;
+}
+
+#videoOverlay button:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 25px rgba(255,0,90,1);
+}
+
+#videoOverlay button:active{
+  transform:scale(.95);
 }
 
 
 /* ================= RESPONSIVE ================= */
 
-@media (max-width: 360px) {
+@media(max-width:360px){
 
-  h2 {
-    font-size: 1.05rem;
+  h2{font-size:1.05rem}
+
+  button{
+    font-size:14px;
+    padding:9px 18px;
   }
 
-  button {
-    font-size: 14px;
-    padding: 9px 18px;
+  #videoBox{
+    max-width:320px;
   }
-
-  #videoBox {
-    max-width: 320px;
-  }
-
 }
