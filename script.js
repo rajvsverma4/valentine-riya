@@ -119,6 +119,25 @@ function show(id){
     }
 }
 
+/* RESTORED: YES button pulse and shake feedback */
+function yesEffect(btn){
+    if(!btn) return;
+    btn.classList.add("yesPulse");
+    shakeApp();
+    setTimeout(() => btn.classList.remove("yesPulse"), 500);
+}
+
+function shakeApp(){
+    let i=0;
+    const t=setInterval(() => {
+        app.style.transform = `translate(${Math.random()*6-3}px, ${Math.random()*6-3}px)`;
+        if(++i>8){ 
+            clearInterval(t); 
+            app.style.transform="translate(0,0)"; 
+        }
+    }, 35);
+}
+
 function jumpSafe(btn) {
     const appBox = app.getBoundingClientRect();
     const yesBtn = document.querySelector(".screen.active .yesBtn");
@@ -151,16 +170,11 @@ function showBubble(btn, msg){
     bubbleTimer = setTimeout(() => bubble.classList.remove("show"), 2800);
 }
 
-function shakeApp(){
-    let i=0;
-    const t=setInterval(() => {
-        app.style.transform = `translate(${Math.random()*6-3}px, ${Math.random()*6-3}px)`;
-        if(++i>8){ clearInterval(t); app.style.transform="translate(0,0)"; }
-    }, 35);
+/* ================= BUTTON ACTIONS ================= */
+function yes1(){
+    yesEffect(event.target);
+    setTimeout(()=>show("s2"),500);
 }
-
-/* ================= BUTTON LOGIC ================= */
-function yes1(){ setTimeout(()=>show("s2"),500); }
 function no1(){
     no1Count++; jumpSafe(event.target);
     const msgs=["Don’t lie 😤💖","Try again 😏","Riyaaa please 🥺","Stop teasing 😂"];
@@ -168,7 +182,10 @@ function no1(){
     if(no1Count>=10) yes1();
 }
 
-function yes2(){ setTimeout(()=>show("s3"),500); }
+function yes2(){
+    yesEffect(event.target);
+    setTimeout(()=>show("s3"),500);
+}
 function no2(){
     no2Count++; jumpSafe(event.target);
     const msgs=["Excuse me?? 😤😂","You better know 💖","Seriously?? 😭","Don’t joke 😏"];
@@ -176,7 +193,10 @@ function no2(){
     if(no2Count>=5) yes2();
 }
 
-function yes3(){ setTimeout(()=>show("s4"),500); }
+function yes3(){
+    yesEffect(event.target);
+    setTimeout(()=>show("s4"),500);
+}
 function no3(){
     no3Count++; jumpSafe(event.target);
     const msgs=["Just coffee? ☕🥺","One selfie? 📸😅","Pleaseee 💖","Say YES 😤❤️"];
@@ -229,7 +249,6 @@ function startPrank(){
 
 function waitForWN() {
     if (wnReady) {
-        if (videoLoader) videoLoader.style.display = "none";
         playWN();
     } else {
         setTimeout(waitForWN, 300);
@@ -239,6 +258,10 @@ function waitForWN() {
 function playWN(){
     if(wnStarted) return;
     wnStarted = true;
+
+    // Polish: Hide loader immediately when starting
+    if(videoLoader) videoLoader.style.display = "none";
+
     wnVideo.style.display="block";
     wnVideo.play().catch(()=>{});
     wnVideo.onended = () => {
