@@ -20,6 +20,8 @@ const sliderRing = document.getElementById("sliderRing");
 
 const pageFlash = document.getElementById("pageFlash");
 
+const finalHearts = document.getElementById("finalHearts");
+
 const app = document.getElementById("app");
 const heartRain = document.getElementById("heartRain");
 
@@ -33,7 +35,9 @@ let bubbleTimer = null;
 
 let prankStarted = false;
 let ringDone = false;
+
 let wnReady = false;
+let wnStarted = false;
 
 
 /* ================= INIT ================= */
@@ -49,8 +53,12 @@ window.addEventListener("DOMContentLoaded", () => {
   if(videoLoader)  videoLoader.style.display  = "none";
 
 
-  // Detect when WN is ready
+  /* WN preload detect */
   if(wnVideo){
+
+    wnVideo.addEventListener("loadedmetadata",()=>{
+      wnReady = true;
+    });
 
     wnVideo.addEventListener("canplaythrough",()=>{
       wnReady = true;
@@ -108,6 +116,32 @@ function initHeartRain(){
 }
 
 
+/* ================= FINAL HEARTS ================= */
+
+function startFinalHearts(){
+
+  if(!finalHearts) return;
+
+  setInterval(()=>{
+
+    const h = document.createElement("div");
+
+    h.className = "heart";
+    h.innerHTML = ["💖","💕","❤️","💘","😍","🥰"][Math.floor(Math.random()*6)];
+
+    h.style.left = Math.random()*100+"vw";
+    h.style.fontSize = 18+Math.random()*22+"px";
+    h.style.animationDuration = 5+Math.random()*4+"s";
+
+    finalHearts.appendChild(h);
+
+    setTimeout(()=>h.remove(),9000);
+
+  },350);
+
+}
+
+
 /* ================= TEXT ================= */
 
 function initFadeText(){
@@ -125,12 +159,21 @@ function initFadeText(){
 }
 
 
+/* Unicode Safe Typewriter */
 function initTypewriter(){
 
   document.querySelectorAll(".typeText").forEach(el=>{
 
     const raw = el.dataset.text || "";
-    const text = Array.from(raw); // Fix emoji bug
+
+    let chars;
+
+    if(window.Intl && Intl.Segmenter){
+      const seg = new Intl.Segmenter("en",{granularity:"grapheme"});
+      chars = [...seg.segment(raw)].map(s=>s.segment);
+    }else{
+      chars = Array.from(raw);
+    }
 
     el.textContent = "";
 
@@ -138,8 +181,8 @@ function initTypewriter(){
 
     const t = setInterval(()=>{
 
-      if(i < text.length){
-        el.textContent += text[i++];
+      if(i < chars.length){
+        el.textContent += chars[i++];
       }else{
         clearInterval(t);
       }
@@ -251,7 +294,7 @@ function jumpSafe(btn){
   }while(
     yesBox &&
     overlap(x,y,yesBox) &&
-    tries<20
+    tries<25
   );
 
   btn.style.position="fixed";
@@ -276,13 +319,9 @@ function overlap(x,y,yes){
 /* ================= SCREEN 1 ================= */
 
 function yes1(){
-
   yesEffect(event.target);
-
   setTimeout(()=>show("s2"),500);
-
 }
-
 
 function no1(){
 
@@ -308,13 +347,9 @@ function no1(){
 /* ================= SCREEN 2 ================= */
 
 function yes2(){
-
   yesEffect(event.target);
-
   setTimeout(()=>show("s3"),500);
-
 }
-
 
 function no2(){
 
@@ -339,13 +374,9 @@ function no2(){
 /* ================= SCREEN 3 ================= */
 
 function yes3(){
-
   yesEffect(event.target);
-
   setTimeout(()=>show("s4"),500);
-
 }
-
 
 function no3(){
 
@@ -442,29 +473,32 @@ function startPrank(){
   videoBox.style.display="block";
 
 
-  // Show loader until ready
   if(videoLoader && !wnReady){
     videoLoader.style.display="flex";
   }
 
 
-  const waitForVideo = ()=>{
+  waitForWN();
 
-    if(!wnReady){
+}
 
-      setTimeout(waitForVideo,300);
-      return;
-    }
 
+function waitForWN(){
+
+  if(wnReady){
     playWN();
-  };
+    return;
+  }
 
-  waitForVideo();
+  setTimeout(waitForWN,300);
 
 }
 
 
 function playWN(){
+
+  if(wnStarted) return;
+  wnStarted = true;
 
   wnVideo.currentTime=0;
   wnVideo.style.display="block";
@@ -472,32 +506,34 @@ function playWN(){
   wnVideo.play().catch(()=>{});
 
 
-  // Backup timer
-  let forceEnd=setTimeout(()=>{
+  const maxWait = setTimeout(()=>{
 
-    if(!wnVideo.ended){
+    forceEndWN();
 
-      wnVideo.pause();
-      wnVideo.style.display="none";
-
-      crossFade();
-      startEnding();
-    }
-
-  },(wnVideo.duration||2)*1000+1000);
+  },8000);
 
 
   wnVideo.onended=()=>{
 
-    clearTimeout(forceEnd);
+    clearTimeout(maxWait);
 
-    crossFade();
+    forceEndWN();
+
+  };
+
+}
+
+
+function forceEndWN(){
+
+  if(wnVideo){
 
     wnVideo.pause();
     wnVideo.style.display="none";
+  }
 
-    startEnding();
-  };
+  crossFade();
+  startEnding();
 
 }
 
@@ -533,6 +569,8 @@ function startEnding(){
 
   mkcVideo.style.display="block";
   mkcVideo.play().catch(()=>{});
+
+  startFinalHearts();
 
   setTimeout(()=>{
 
