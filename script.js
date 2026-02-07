@@ -26,8 +26,9 @@ let wnReady = false, wnStarted = false;
 window.addEventListener("DOMContentLoaded", () => {
     initHeartRain();
     unlockAudio();
-    if(videoOverlay) videoOverlay.style.display = "none";
-    if(videoLoader)  videoLoader.style.display  = "none";
+    // Start initial animations for Screen 1
+    initTypewriter(document);
+    initFadeText(document);
 
     if(wnVideo){
         wnVideo.addEventListener("canplaythrough", () => {
@@ -38,21 +39,17 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-/* FULL MOBILE PRIMING */
 function unlockAudio(){
     document.body.addEventListener("click", () => {
         if(!audioUnlocked){
             bgAudio.volume = 0.4;
             bgAudio.play().catch(()=>{});
-
             wnVideo.load();
             mkcVideo.load();
             bklAudio.load();
-            
             wnVideo.play().then(() => wnVideo.pause()).catch(()=>{});
             mkcVideo.play().then(() => mkcVideo.pause()).catch(()=>{});
             bklAudio.play().then(() => bklAudio.pause()).catch(()=>{});
-
             audioUnlocked = true;
         }
     }, { once: true });
@@ -220,10 +217,8 @@ function playWN(){
     wnStarted = true;
     if(videoLoader) videoLoader.style.display = "none";
     wnVideo.style.display="block";
-    
     wnVideo.muted = false;
     wnVideo.volume = 1.0;
-
     let p = wnVideo.play();
     if (p !== undefined) {
         p.catch(() => { 
@@ -232,7 +227,6 @@ function playWN(){
             setTimeout(() => { wnVideo.muted = false; }, 1000);
         });
     }
-
     wnVideo.onended = () => {
         wnVideo.style.display="none";
         bklAudio.muted = false;
@@ -254,24 +248,25 @@ function crossFadeAudio(){
 
 function startEnding(){
     mkcVideo.style.display="block";
-    mkcVideo.muted = true; // Stay muted as requested
+    mkcVideo.muted = true; 
     mkcVideo.play().catch(() => {});
     
-    startFinalHearts();
+    // Prevent double heart timer
+    if(!window.finalHeartTimer) {
+        window.finalHeartTimer = setInterval(() => {
+            const h = document.createElement("div");
+            h.className = "heart";
+            h.innerHTML = ["💖","💕","❤️","💘","😍","🥰"][Math.floor(Math.random()*6)];
+            h.style.left = Math.random()*100+"vw";
+            finalHearts.appendChild(h);
+            setTimeout(()=>h.remove(), 9000);
+        }, 350);
+    }
+
     setTimeout(() => {
         videoOverlay.style.display="flex";
+        videoOverlay.style.animation = "pop 0.5s ease forwards";
     }, 4000);
-}
-
-function startFinalHearts(){
-    setInterval(() => {
-        const h = document.createElement("div");
-        h.className = "heart";
-        h.innerHTML = ["💖","💕","❤️","💘","😍","🥰"][Math.floor(Math.random()*6)];
-        h.style.left = Math.random()*100+"vw";
-        finalHearts.appendChild(h);
-        setTimeout(()=>h.remove(), 9000);
-    }, 350);
 }
 
 function replay(){ location.reload(); }
