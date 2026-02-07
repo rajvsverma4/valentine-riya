@@ -5,6 +5,7 @@ const bklAudio = document.getElementById("bklAudio");
 
 const wnVideo = document.getElementById("wnVideo");
 const mkcVideo = document.getElementById("mkcVideo");
+const videoBox = document.getElementById("videoBox");
 
 const bubble = document.getElementById("bubble");
 
@@ -13,24 +14,24 @@ const sliderText = document.getElementById("sliderText");
 const sliderMsg = document.getElementById("sliderMsg");
 const sliderGlow = document.getElementById("sliderGlow");
 
+const app = document.getElementById("app");
 const heartRain = document.getElementById("heartRain");
-
 
 let no1Count = 0;
 let no2Count = 0;
 let no3Count = 0;
 
 let audioUnlocked = false;
+let bubbleTimer = null;
 
 
 /* ================= INIT ================= */
 
-window.addEventListener("DOMContentLoaded", ()=>{
+window.addEventListener("DOMContentLoaded", () => {
 
   initHeartRain();
   initFadeText();
   initTypewriter();
-
   unlockAudio();
 
 });
@@ -38,226 +39,236 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
 /* ================= AUDIO ================= */
 
-function unlockAudio(){
+function unlockAudio() {
 
-  document.body.addEventListener("click", ()=>{
+  document.body.addEventListener("click", () => {
 
-    if(!audioUnlocked){
+    if (!audioUnlocked) {
 
       bgAudio.volume = 0.4;
-      bgAudio.play().catch(()=>{});
+      bgAudio.play().catch(() => {});
 
       audioUnlocked = true;
     }
 
-  }, { once:true });
+  }, { once: true });
+
 }
 
 
 /* ================= HEART RAIN ================= */
 
-function initHeartRain(){
+function initHeartRain() {
 
-  setInterval(()=>{
+  setInterval(() => {
 
-    const heart = document.createElement("div");
+    const h = document.createElement("div");
 
-    heart.className = "heart";
-    heart.innerHTML = ["💖","💕","💘","❤️"][Math.floor(Math.random()*4)];
+    h.className = "heart";
+    h.innerHTML = ["💖", "💕", "❤️", "💘"][Math.floor(Math.random() * 4)];
 
-    heart.style.left = Math.random()*100+"vw";
-    heart.style.fontSize = 18+Math.random()*18+"px";
-    heart.style.animationDuration = 6+Math.random()*6+"s";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = 16 + Math.random() * 18 + "px";
+    h.style.animationDuration = 6 + Math.random() * 6 + "s";
 
-    heartRain.appendChild(heart);
+    heartRain.appendChild(h);
 
-    setTimeout(()=>heart.remove(),12000);
+    setTimeout(() => h.remove(), 12000);
 
-  },400);
+  }, 450);
+
 }
 
 
-/* ================= TEXT ANIM ================= */
+/* ================= TEXT ANIMATION ================= */
 
-function initFadeText(){
+function initFadeText() {
 
-  document.querySelectorAll(".fadeText").forEach(el=>{
+  document.querySelectorAll(".fadeText").forEach(el => {
 
     el.style.opacity = 0;
 
-    setTimeout(()=>{
+    setTimeout(() => {
       el.style.opacity = 1;
       el.classList.add("fadeIn");
-    },300);
+    }, 200);
+
   });
+
 }
 
 
-function initTypewriter(){
+function initTypewriter() {
 
-  document.querySelectorAll(".typeText").forEach(el=>{
+  document.querySelectorAll(".typeText").forEach(el => {
 
-    const txt = el.dataset.text;
+    const text = el.dataset.text;
 
     el.textContent = "";
 
     let i = 0;
 
-    const timer = setInterval(()=>{
+    const timer = setInterval(() => {
 
-      if(i < txt.length){
-
-        el.textContent += txt[i++];
-
-      }else{
+      if (i < text.length) {
+        el.textContent += text[i++];
+      } else {
         clearInterval(timer);
       }
 
-    },50);
+    }, 45);
 
   });
+
 }
 
 
 /* ================= SCREEN CONTROL ================= */
 
-function show(id){
+function show(id) {
 
   document.querySelectorAll(".screen")
-  .forEach(s=>s.classList.remove("active"));
+    .forEach(s => s.classList.remove("active"));
 
-  const screen = document.getElementById(id);
+  document.getElementById(id).classList.add("active");
 
-  screen.classList.add("active");
-
-  // Re-trigger animations
   initFadeText();
   initTypewriter();
+
 }
 
 
-/* ================= EFFECTS ================= */
+/* ================= YES EFFECT ================= */
 
-function yesEffect(btn){
+function yesEffect(btn) {
 
   btn.classList.add("yesPulse");
 
-  burstHearts(btn);
-
   shakeApp();
 
-  setTimeout(()=>{
+  setTimeout(() => {
     btn.classList.remove("yesPulse");
-  },600);
+  }, 500);
+
 }
 
 
-function burstHearts(el){
+function shakeApp() {
 
-  const r = el.getBoundingClientRect();
+  let i = 0;
 
-  for(let i=0;i<15;i++){
-
-    const h = document.createElement("div");
-
-    h.innerHTML="💖";
-    h.className="burst";
-
-    h.style.left = r.left+r.width/2+"px";
-    h.style.top = r.top+r.height/2+"px";
-
-    document.body.appendChild(h);
-
-    const x=(Math.random()-0.5)*200;
-    const y=(Math.random()-0.5)*200;
-
-    h.animate([
-      {transform:"scale(1)",opacity:1},
-      {transform:`translate(${x}px,${y}px) scale(0)`,opacity:0}
-    ],{duration:800});
-
-    setTimeout(()=>h.remove(),800);
-  }
-}
-
-
-function shakeApp(){
-
-  const app = document.getElementById("app");
-
-  let i=0;
-
-  const t = setInterval(()=>{
+  const t = setInterval(() => {
 
     app.style.transform =
-      `translate(${Math.random()*6-3}px,
-                 ${Math.random()*6-3}px)`;
+      `translate(${Math.random() * 6 - 3}px,
+                 ${Math.random() * 6 - 3}px)`;
 
-    if(++i>8){
+    if (++i > 8) {
       clearInterval(t);
-      app.style.transform="translate(0,0)";
+      app.style.transform = "translate(0,0)";
     }
 
-  },40);
+  }, 35);
+
 }
 
 
-/* ================= BUBBLE ================= */
+/* ================= POPUP BUBBLE ================= */
 
-function showBubble(btn,msg){
+function showBubble(btn, msg) {
+
+  if (bubbleTimer) clearTimeout(bubbleTimer);
 
   bubble.textContent = msg;
 
   const r = btn.getBoundingClientRect();
 
-  bubble.style.left = r.left+r.width/2+"px";
-  bubble.style.top = r.top-40+"px";
+  bubble.style.left = (r.left + r.width / 2) + "px";
+  bubble.style.top = (r.bottom + 10) + "px";
 
-  bubble.classList.remove("hidden");
   bubble.classList.add("show");
 
-  setTimeout(()=>{
+  bubbleTimer = setTimeout(() => {
+
     bubble.classList.remove("show");
-    bubble.classList.add("hidden");
-  },1500);
+
+  }, 3000);
+
 }
 
 
-/* ================= JUMP ================= */
+/* ================= SAFE JUMP ================= */
 
-function jump(btn){
+function jumpSafe(btn) {
 
-  btn.style.position="fixed";
+  const appBox = app.getBoundingClientRect();
+  const yesBtn = document.querySelector(".yesBtn");
 
-  const x=Math.random()*(window.innerWidth-120);
-  const y=Math.random()*(window.innerHeight-120);
+  let yesBox = null;
 
-  btn.style.left=x+"px";
-  btn.style.top=y+"px";
+  if (yesBtn) yesBox = yesBtn.getBoundingClientRect();
+
+  const margin = 25;
+
+  let x, y, tries = 0;
+
+  do {
+
+    x = appBox.left + margin +
+        Math.random() * (appBox.width - 140);
+
+    y = appBox.top + margin +
+        Math.random() * (appBox.height - 140);
+
+    tries++;
+
+  } while (
+    yesBox &&
+    overlap(x, y, yesBox) &&
+    tries < 15
+  );
+
+  btn.style.position = "fixed";
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+
+}
+
+
+function overlap(x, y, yes) {
+
+  return (
+    x > yes.left - 70 &&
+    x < yes.right + 70 &&
+    y > yes.top - 70 &&
+    y < yes.bottom + 70
+  );
+
 }
 
 
 /* ================= SCREEN 1 ================= */
 
-function yes1(){
+function yes1() {
 
   yesEffect(event.target);
 
-  setTimeout(()=>{
+  setTimeout(() => {
     show("s2");
-  },600);
+  }, 500);
+
 }
 
 
-function no1(){
+function no1() {
 
   const btn = event.target;
 
   no1Count++;
 
-  jump(btn);
+  jumpSafe(btn);
 
-  const msgs=[
+  const msgs = [
     "Don’t lie 😤💖",
     "Try again 😏",
     "Riyaaa please 🥺",
@@ -265,74 +276,74 @@ function no1(){
     "Stop teasing 😂",
     "Just say yes 😭",
     "My heart 💔",
-    "Okay last chance 😤❤️"
+    "Last chance 😤❤️"
   ];
 
-  showBubble(btn,msgs[no1Count%msgs.length]);
+  showBubble(btn, msgs[no1Count % msgs.length]);
 
-  if(no1Count>=10){
-    yes1();
-  }
+  if (no1Count >= 10) yes1();
+
 }
 
 
 /* ================= SCREEN 2 ================= */
 
-function yes2(){
+function yes2() {
 
   yesEffect(event.target);
 
-  setTimeout(()=>{
+  setTimeout(() => {
     show("s3");
-  },600);
+  }, 500);
+
 }
 
 
-function no2(){
+function no2() {
 
   const btn = event.target;
 
   no2Count++;
 
-  jump(btn);
+  jumpSafe(btn);
 
-  const msgs=[
+  const msgs = [
     "Excuse me?? 😤😂",
-    "Don’t joke 😏",
     "You better know 💖",
     "Seriously?? 😭",
     "Press YES 😤",
+    "Don’t joke 😏"
   ];
 
-  showBubble(btn,msgs[no2Count%msgs.length]);
+  showBubble(btn, msgs[no2Count % msgs.length]);
 
-  if(no2Count>=5){
-    yes2();
-  }
+  if (no2Count >= 5) yes2();
+
 }
 
 
 /* ================= SCREEN 3 ================= */
 
-function yes3(){
+function yes3() {
 
   yesEffect(event.target);
 
-  setTimeout(()=>{
+  setTimeout(() => {
     show("s4");
-  },600);
+  }, 500);
+
 }
 
 
-function no3(){
+function no3() {
 
   const btn = event.target;
 
   no3Count++;
 
-  jump(btn);
+  jumpSafe(btn);
 
-  const msgs=[
+  const msgs = [
     "Just coffee? ☕🥺",
     "One selfie? 📸😅",
     "30 mins? 😭",
@@ -342,27 +353,26 @@ function no3(){
     "Say YES 😤❤️"
   ];
 
-  showBubble(btn,msgs[no3Count%msgs.length]);
+  showBubble(btn, msgs[no3Count % msgs.length]);
 
-  if(no3Count>=10){
-    yes3();
-  }
+  if (no3Count >= 10) yes3();
+
 }
 
 
 /* ================= SLIDER ================= */
 
-slider.addEventListener("input",()=>{
+slider.addEventListener("input", () => {
 
   const v = +slider.value;
 
-  sliderText.textContent = v+"%";
+  sliderText.textContent = v + "%";
 
-  sliderGlow.style.opacity = v/100;
+  sliderGlow.style.opacity = v / 100;
 
   shakeApp();
 
-  const msgs=[
+  const msgs = [
     "Nice 😍",
     "Keep going 😌",
     "Almost 💖",
@@ -371,116 +381,95 @@ slider.addEventListener("input",()=>{
     "YESSS 😍"
   ];
 
-  sliderMsg.textContent = msgs[Math.floor(v/20)];
+  sliderMsg.textContent = msgs[Math.floor(v / 20)];
 
-  if(v>=100){
-    unlockGate();
-  }
+  if (v >= 100) unlockGate();
+
 });
 
 
-function unlockGate(){
+function unlockGate() {
 
   show("s5");
 
-  explosion();
-
-  setTimeout(()=>{
+  setTimeout(() => {
     startPrank();
-  },2000);
-}
+  }, 1800);
 
-
-/* ================= EXPLOSION ================= */
-
-function explosion(){
-
-  for(let i=0;i<60;i++){
-
-    const p=document.createElement("div");
-
-    p.innerHTML=Math.random()>0.5?"💖":"✨";
-    p.className="particle";
-
-    p.style.left="50%";
-    p.style.top="50%";
-
-    document.body.appendChild(p);
-
-    const x=(Math.random()-0.5)*600;
-    const y=(Math.random()-0.5)*600;
-
-    p.animate([
-      {transform:"scale(1)",opacity:1},
-      {transform:`translate(${x}px,${y}px) scale(0)`,opacity:0}
-    ],{duration:1000});
-
-    setTimeout(()=>p.remove(),1000);
-  }
 }
 
 
 /* ================= PRANK ================= */
 
-function startPrank(){
+function startPrank() {
 
   bgAudio.pause();
 
-  wnVideo.style.display="block";
+  videoBox.style.display = "block";
+
+  wnVideo.currentTime = 0;
+  wnVideo.style.display = "block";
   wnVideo.play();
 
-  wnVideo.onended = ()=>{
+
+  wnVideo.onended = () => {
 
     crossFade();
 
-    wnVideo.style.display="none";
+    wnVideo.pause();
+    wnVideo.style.display = "none";
 
     startEnding();
   };
+
 }
 
 
 /* ================= AUDIO FADE ================= */
 
-function crossFade(){
+function crossFade() {
 
-  bklAudio.volume=0;
+  bklAudio.volume = 0;
   bklAudio.play();
 
-  let v=0;
+  let v = 0;
 
-  const t=setInterval(()=>{
+  const t = setInterval(() => {
 
-    v+=0.05;
+    v += 0.05;
 
-    if(v>=0.6){
-      v=0.6;
+    if (v >= 0.6) {
+      v = 0.6;
       clearInterval(t);
     }
 
-    bklAudio.volume=v;
+    bklAudio.volume = v;
 
-  },50);
+  }, 50);
+
 }
 
 
-/* ================= ENDING ================= */
+/* ================= END ================= */
 
-function startEnding(){
+function startEnding() {
 
-  mkcVideo.style.display="block";
+  mkcVideo.style.display = "block";
   mkcVideo.play();
 
   show("s6");
 
-  setTimeout(()=>{
-    overlay.style.display="block";
-  },10000);
+  setTimeout(() => {
+
+    document.getElementById("finalOverlay").style.display = "block";
+
+  }, 10000);
+
 }
 
 
 /* ================= REPLAY ================= */
 
-function replay(){
+function replay() {
   location.reload();
 }
