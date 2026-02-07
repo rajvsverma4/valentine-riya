@@ -101,8 +101,14 @@ body {
 }
 
 @keyframes pop {
-  from { transform: scale(.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from { transform: scale(.9) translate(-50%, -50%); opacity: 0; }
+  to { transform: scale(1) translate(-50%, -50%); opacity: 1; }
+}
+
+/* Specific pop for centered fixed elements */
+@keyframes popFixed {
+  from { transform: scale(.9) translate(-50%, -50%); opacity: 0; }
+  to { transform: scale(1) translate(-50%, -50%); opacity: 1; }
 }
 
 .screen.active { display: flex; }
@@ -253,7 +259,7 @@ button:active { transform: scale(.94); }
   to { width: 300px; height: 300px; opacity: 0; }
 }
 
-/* ================= VIDEO SECTION (MOBILE FIX) ================= */
+/* ================= VIDEO SECTION (FIXED POSITIONING) ================= */
 #videoBox {
   position: fixed;
   top: 50%;
@@ -291,23 +297,29 @@ button:active { transform: scale(.94); }
   backdrop-filter: blur(3px);
 }
 
-/* THE POPUP FIX: Dead-center positioning */
+/* FINAL MESSAGE POPUP: Anchored to Viewport (Fixed Center) */
 #videoOverlay {
-  position: absolute;
+  position: fixed; /* Bypasses video container bugs */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 85%;
-  max-width: 340px;
+  width: 90%;
+  max-width: 380px;
   background: rgba(255, 255, 255, 0.98);
-  padding: 22px 18px;
+  padding: 30px 20px;
   border-radius: 26px;
   text-align: center;
-  display: none; 
+  display: none; /* Controlled by JS flex */
   flex-direction: column;
-  box-shadow: 0 0 40px rgba(255, 0, 90, 0.4);
-  z-index: 500;
-  animation: pop .5s ease;
+  z-index: 1000; /* Over everything */
+  box-shadow: 0 10px 50px rgba(255, 0, 90, 0.4);
+  animation: popFixed 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+#videoOverlay p {
+  font-size: 1.1rem;
+  color: #ff2e6f;
+  margin-bottom: 20px;
 }
 
 /* ================= RESPONSIVE ================= */
@@ -315,4 +327,5 @@ button:active { transform: scale(.94); }
   h2 { font-size: 1.08rem; }
   button { font-size: 14px; padding: 9px 18px; }
   #videoBox { max-width: 330px; }
+  #videoOverlay { width: 95%; padding: 20px 15px; }
 }
