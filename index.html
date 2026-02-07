@@ -18,19 +18,19 @@
 <div id="videoBox">
     <div id="videoLoader">Loading surprise… 💖😌</div>
     
-    <div class="video-container" style="position: relative; width: 100%; height: 100%;">
+    <div class="video-container" style="position: relative; width: 100%; height: 100%; background: black;">
         <video id="wnVideo" src="assets/WN.mp4" preload="auto" playsinline webkit-playsinline></video>
         <video id="mkcVideo" src="assets/MKC.mp4" preload="auto" muted loop playsinline webkit-playsinline></video>
-    </div>
-
-    <div id="videoOverlay" class="screen" style="display:none; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 360px; z-index: 500; padding: 20px; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-sizing: border-box;">
-        <p style="margin-bottom: 15px; font-size: 1rem; color: #ff2e6f; line-height: 1.5; width: 100%;">
-            And yes… we are certainly going on a date soon,<br>
-            <b style="font-size: 1.15rem; display: block; margin-top: 5px;">Shotu baby 😌💖</b><br>
-            — Raj 💖
-        </p>
-        <div class="btns" style="width: 100%; display: flex; justify-content: center;">
-            <button onclick="replay()" style="padding: 10px 28px; min-width: 120px;">🔁 Replay</button>
+        
+        <div id="videoOverlay" class="screen" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 85%; max-width: 340px; z-index: 500; padding: 25px; flex-direction: column; align-items: center; text-align: center;">
+            <p style="margin-bottom: 15px; color: #ff2e6f; line-height: 1.6;">
+                And yes… we are certainly going on a date soon,<br>
+                <b style="font-size: 1.2rem;">Shotu baby 😌💖</b><br>
+                — Raj 💖
+            </p>
+            <div class="btns">
+                <button onclick="replay()" style="padding: 10px 25px;">🔁 Replay</button>
+            </div>
         </div>
     </div>
 </div>
@@ -56,6 +56,7 @@
             <button class="yesBtn" onclick="yes2()">Yes</button>
             <button class="noBtn" onclick="no2()">No</button>
         </div>
+        <button onclick="show('s1')" style="background:none; color:#ff8fab; box-shadow:none; font-size:12px; margin-top:10px; opacity:0.8;">← Back</button>
     </section>
 
     <section class="screen" id="s3">
@@ -65,6 +66,7 @@
             <button class="yesBtn" onclick="yes3()">Yes</button>
             <button class="noBtn" onclick="no3()">No</button>
         </div>
+        <button onclick="show('s2')" style="background:none; color:#ff8fab; box-shadow:none; font-size:12px; margin-top:10px; opacity:0.8;">← Back</button>
     </section>
 
     <section class="screen" id="s4">
