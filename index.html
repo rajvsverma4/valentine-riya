@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>For Riya 💖</title>
 
@@ -12,161 +14,203 @@
 <link rel="stylesheet" href="styles.css">
 
 </head>
+
 <body>
 
-<!-- ================= BACKGROUND ANIMATION ================= -->
+<!-- ================= BACKGROUND ================= -->
 
 <div id="heartRain"></div>
 <div id="bgGlow"></div>
 
+
 <!-- ================= AUDIO ================= -->
 
-<audio id="bgAudio" src="assets/Background.webm" loop></audio>
-<audio id="bklAudio" src="assets/BKL.webm" loop></audio>
+<audio id="bgAudio" src="assets/Background.webm" loop preload="auto"></audio>
+<audio id="bklAudio" src="assets/BKL.webm" loop preload="auto"></audio>
+
 
 <!-- ================= VIDEO BOX ================= -->
 
 <div id="videoBox">
 
-  <video id="wnVideo" src="assets/WN.mp4"></video>
-  <video id="mkcVideo" src="assets/MKC.mp4" muted loop></video>
+  <!-- Important: playsinline prevents fullscreen on mobile -->
+  <video id="wnVideo"
+         src="assets/WN.mp4"
+         playsinline
+         webkit-playsinline
+         controlslist="nodownload nofullscreen noremoteplayback">
+  </video>
+
+  <video id="mkcVideo"
+         src="assets/MKC.mp4"
+         muted
+         loop
+         playsinline
+         webkit-playsinline
+         controlslist="nodownload nofullscreen noremoteplayback">
+  </video>
 
 </div>
 
-<!-- ================= MESSAGE BUBBLE ================= -->
 
-<div id="bubble" class="hidden"></div>
+<!-- ================= POPUP ================= -->
+
+<div id="bubble"></div>
+
 
 <!-- ================= MAIN APP ================= -->
 
 <div id="app">
 
-  <!-- ================= SCREEN 1 ================= -->
 
-  <section class="screen active" id="s1">
+<!-- ================================================= -->
+<!-- ================= SCREEN 1 ===================== -->
+<!-- ================================================= -->
 
-    <h2 class="fadeText">
-      Valentine is not only for relationships…<br>
-      it’s for everyone we adore 💖
-    </h2>
+<section class="screen active" id="s1">
 
-    <p class="fadeText delay1">
-      Can I ask you something… 😌
+  <h2 class="fadeText">
+    Valentine is not only for relationships…<br>
+    it’s for everyone we adore 💖
+  </h2>
+
+  <p class="fadeText delay1">
+    Can I ask you something… 😌
+  </p>
+
+  <h3 class="fadeText delay2">
+    Are we good friends? 🥺💗
+  </h3>
+
+  <div class="btns fadeText delay3">
+
+    <button class="yesBtn" onclick="yes1()">Yes</button>
+    <button class="noBtn" id="no1" onclick="no1()">No</button>
+
+  </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- ================= SCREEN 2 ===================== -->
+<!-- ================================================= -->
+
+<section class="screen" id="s2">
+
+  <h2 class="typeText"
+      data-text="Do you know how special you are to me, Riya? 💗">
+  </h2>
+
+  <div class="btns">
+
+    <button class="yesBtn" onclick="yes2()">Yes</button>
+    <button class="noBtn" id="no2" onclick="no2()">No</button>
+
+  </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- ================= SCREEN 3 ===================== -->
+<!-- ================================================= -->
+
+<section class="screen" id="s3">
+
+  <h2 class="typeText"
+      data-text="I know your time is precious… ⏳💗 But can you take out just one day to go on a date with me? 😌">
+  </h2>
+
+  <h3 class="fadeText delay2">
+    Will you be my Valentine?
+    <br>(Just for one day 🥺👉👈)
+  </h3>
+
+  <div class="btns fadeText delay3">
+
+    <button class="yesBtn" onclick="yes3()">Yes</button>
+    <button class="noBtn" id="no3" onclick="no3()">No</button>
+
+  </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- ================= SCREEN 4 (SLIDER) ============= -->
+<!-- ================================================= -->
+
+<section class="screen" id="s4">
+
+  <h2 class="fadeText">
+    Unlock My Valentine World 💖✨
+  </h2>
+
+  <p class="fadeText delay1" id="sliderMsg">
+    Slide with love 😌
+  </p>
+
+
+  <div id="sliderBox">
+
+    <input type="range"
+           id="slider"
+           min="0"
+           max="100"
+           value="0">
+
+    <div id="sliderGlow"></div>
+
+    <!-- Explosion Ring -->
+    <div id="sliderRing"></div>
+
+  </div>
+
+
+  <p id="sliderText">0%</p>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- ================= SCREEN 5 ===================== -->
+<!-- ================================================= -->
+
+<section class="screen" id="s5">
+
+  <h1 class="bigGlow">
+    SHE SAID YES 💍💖
+  </h1>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- ================= SCREEN 6 ===================== -->
+<!-- ================================================= -->
+
+<section class="screen" id="s6">
+
+
+  <div id="finalOverlay">
+
+    <p>
+      And yes… we are certainly going on a date soon,<br>
+      <b>Shotu baby 😌💖</b><br>
+      — Raj
     </p>
 
-    <h3 class="fadeText delay2">
-      Are we good friends? 🥺💗
-    </h3>
-
-    <div class="btns fadeText delay3">
-
-      <button class="yesBtn" onclick="yes1()">Yes</button>
-      <button class="noBtn" id="no1" onclick="no1()">No</button>
-
-    </div>
-
-  </section>
+  </div>
 
 
-  <!-- ================= SCREEN 2 ================= -->
-
-  <section class="screen" id="s2">
-
-    <h2 class="typeText" data-text="Do you know how special you are to me, Riya? 💗"></h2>
-
-    <div class="btns">
-
-      <button class="yesBtn" onclick="yes2()">Yes</button>
-      <button class="noBtn" id="no2" onclick="no2()">No</button>
-
-    </div>
-
-  </section>
+  <button id="replayBtn" onclick="replay()">
+    🔁 Replay
+  </button>
 
 
-  <!-- ================= SCREEN 3 ================= -->
+</section>
 
-  <section class="screen" id="s3">
-
-    <h2 class="typeText"
-      data-text="I know your time is precious… ⏳💗
-But can you take out just one day to go on a date with me? 😌">
-    </h2>
-
-    <h3 class="fadeText delay2">
-      Will you be my Valentine?
-      <br>(Just for one day 🥺👉👈)
-    </h3>
-
-    <div class="btns fadeText delay3">
-
-      <button class="yesBtn" onclick="yes3()">Yes</button>
-      <button class="noBtn" id="no3" onclick="no3()">No</button>
-
-    </div>
-
-  </section>
-
-
-  <!-- ================= SCREEN 4 (SLIDER) ================= -->
-
-  <section class="screen" id="s4">
-
-    <h2 class="fadeText">
-      Unlock My Valentine World 💖✨
-    </h2>
-
-    <p class="fadeText delay1" id="sliderMsg">
-      Slide with love 😌
-    </p>
-
-    <div id="sliderBox">
-
-      <input type="range"
-             id="slider"
-             min="0"
-             max="100"
-             value="0">
-
-      <div id="sliderGlow"></div>
-
-    </div>
-
-    <p id="sliderText">0%</p>
-
-  </section>
-
-
-  <!-- ================= SCREEN 5 ================= -->
-
-  <section class="screen" id="s5">
-
-    <h1 class="bigGlow">
-      SHE SAID YES 💍💖
-    </h1>
-
-  </section>
-
-
-  <!-- ================= SCREEN 6 ================= -->
-
-  <section class="screen" id="s6">
-
-    <div id="finalOverlay">
-
-      <p>
-        And yes… we are certainly going on a date soon,<br>
-        <b>Shotu baby 😌💖</b><br>
-        — Raj
-      </p>
-
-    </div>
-
-    <button id="replayBtn" onclick="replay()">
-      🔁 Replay
-    </button>
-
-  </section>
 
 </div>
 
