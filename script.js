@@ -8,6 +8,7 @@ const mkcVideo = document.getElementById("mkcVideo");
 const videoBox = document.getElementById("videoBox");
 
 const videoOverlay = document.getElementById("videoOverlay");
+const videoLoader = document.getElementById("videoLoader");
 
 const bubble = document.getElementById("bubble");
 
@@ -16,6 +17,8 @@ const sliderText = document.getElementById("sliderText");
 const sliderMsg = document.getElementById("sliderMsg");
 const sliderGlow = document.getElementById("sliderGlow");
 const sliderRing = document.getElementById("sliderRing");
+
+const pageFlash = document.getElementById("pageFlash");
 
 const app = document.getElementById("app");
 const heartRain = document.getElementById("heartRain");
@@ -30,6 +33,7 @@ let bubbleTimer = null;
 
 let prankStarted = false;
 let ringDone = false;
+let wnReady = false;
 
 
 /* ================= INIT ================= */
@@ -41,8 +45,21 @@ window.addEventListener("DOMContentLoaded", () => {
   initTypewriter();
   unlockAudio();
 
-  if (videoOverlay) {
-    videoOverlay.style.display = "none";
+  if(videoOverlay) videoOverlay.style.display = "none";
+  if(videoLoader)  videoLoader.style.display  = "none";
+
+
+  // Detect when WN is ready
+  if(wnVideo){
+
+    wnVideo.addEventListener("canplaythrough",()=>{
+      wnReady = true;
+
+      if(videoLoader){
+        videoLoader.style.display = "none";
+      }
+    });
+
   }
 
 });
@@ -50,11 +67,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
 /* ================= AUDIO ================= */
 
-function unlockAudio() {
+function unlockAudio(){
 
-  document.body.addEventListener("click", () => {
+  document.body.addEventListener("click",()=>{
 
-    if (!audioUnlocked) {
+    if(!audioUnlocked){
 
       bgAudio.volume = 0.4;
       bgAudio.play().catch(()=>{});
@@ -62,25 +79,25 @@ function unlockAudio() {
       audioUnlocked = true;
     }
 
-  }, { once:true });
+  },{ once:true });
 
 }
 
 
 /* ================= HEART RAIN ================= */
 
-function initHeartRain() {
+function initHeartRain(){
 
-  setInterval(() => {
+  setInterval(()=>{
 
     const h = document.createElement("div");
 
     h.className = "heart";
     h.innerHTML = ["💖","💕","❤️","💘"][Math.floor(Math.random()*4)];
 
-    h.style.left = Math.random()*100 + "vw";
-    h.style.fontSize = 16 + Math.random()*18 + "px";
-    h.style.animationDuration = 6 + Math.random()*6 + "s";
+    h.style.left = Math.random()*100+"vw";
+    h.style.fontSize = 16+Math.random()*18+"px";
+    h.style.animationDuration = 6+Math.random()*6+"s";
 
     heartRain.appendChild(h);
 
@@ -112,7 +129,8 @@ function initTypewriter(){
 
   document.querySelectorAll(".typeText").forEach(el=>{
 
-    const text = el.dataset.text || "";
+    const raw = el.dataset.text || "";
+    const text = Array.from(raw); // Fix emoji bug
 
     el.textContent = "";
 
@@ -194,12 +212,12 @@ function showBubble(btn,msg){
 
   const r = btn.getBoundingClientRect();
 
-  bubble.style.left = (r.left + r.width/2) + "px";
-  bubble.style.top  = (r.bottom + 12) + "px";
+  bubble.style.left = (r.left+r.width/2)+"px";
+  bubble.style.top  = (r.bottom+12)+"px";
 
   bubble.classList.add("show");
 
-  bubbleTimer = setTimeout(()=>{
+  bubbleTimer=setTimeout(()=>{
     bubble.classList.remove("show");
   },2800);
 
@@ -213,19 +231,19 @@ function jumpSafe(btn){
   const appBox = app.getBoundingClientRect();
   const yesBtn = document.querySelector(".yesBtn");
 
-  let yesBox = null;
-  if(yesBtn) yesBox = yesBtn.getBoundingClientRect();
+  let yesBox=null;
+  if(yesBtn) yesBox=yesBtn.getBoundingClientRect();
 
-  const margin = 30;
+  const margin=30;
 
   let x,y,tries=0;
 
   do{
 
-    x = appBox.left + margin +
+    x = appBox.left+margin+
         Math.random()*(appBox.width-140);
 
-    y = appBox.top + margin +
+    y = appBox.top+margin+
         Math.random()*(appBox.height-140);
 
     tries++;
@@ -237,19 +255,19 @@ function jumpSafe(btn){
   );
 
   btn.style.position="fixed";
-  btn.style.left = x+"px";
-  btn.style.top  = y+"px";
+  btn.style.left=x+"px";
+  btn.style.top =y+"px";
 
 }
 
 
 function overlap(x,y,yes){
 
-  return (
-    x > yes.left-80 &&
-    x < yes.right+80 &&
-    y > yes.top-80 &&
-    y < yes.bottom+80
+  return(
+    x>yes.left-80 &&
+    x<yes.right+80 &&
+    y>yes.top-80 &&
+    y<yes.bottom+80
   );
 
 }
@@ -261,30 +279,23 @@ function yes1(){
 
   yesEffect(event.target);
 
-  setTimeout(()=>{
-    show("s2");
-  },500);
+  setTimeout(()=>show("s2"),500);
 
 }
 
 
 function no1(){
 
-  const btn = event.target;
+  const btn=event.target;
 
   no1Count++;
 
   jumpSafe(btn);
 
   const msgs=[
-    "Don’t lie 😤💖",
-    "Try again 😏",
-    "Riyaaa please 🥺",
-    "You know it 😌",
-    "Stop teasing 😂",
-    "Just say yes 😭",
-    "My heart 💔",
-    "Last chance 😤❤️"
+    "Don’t lie 😤💖","Try again 😏","Riyaaa please 🥺",
+    "You know it 😌","Stop teasing 😂","Just say yes 😭",
+    "My heart 💔","Last chance 😤❤️"
   ];
 
   showBubble(btn,msgs[no1Count%msgs.length]);
@@ -300,27 +311,22 @@ function yes2(){
 
   yesEffect(event.target);
 
-  setTimeout(()=>{
-    show("s3");
-  },500);
+  setTimeout(()=>show("s3"),500);
 
 }
 
 
 function no2(){
 
-  const btn = event.target;
+  const btn=event.target;
 
   no2Count++;
 
   jumpSafe(btn);
 
   const msgs=[
-    "Excuse me?? 😤😂",
-    "You better know 💖",
-    "Seriously?? 😭",
-    "Press YES 😤",
-    "Don’t joke 😏"
+    "Excuse me?? 😤😂","You better know 💖",
+    "Seriously?? 😭","Press YES 😤","Don’t joke 😏"
   ];
 
   showBubble(btn,msgs[no2Count%msgs.length]);
@@ -336,29 +342,22 @@ function yes3(){
 
   yesEffect(event.target);
 
-  setTimeout(()=>{
-    show("s4");
-  },500);
+  setTimeout(()=>show("s4"),500);
 
 }
 
 
 function no3(){
 
-  const btn = event.target;
+  const btn=event.target;
 
   no3Count++;
 
   jumpSafe(btn);
 
   const msgs=[
-    "Just coffee? ☕🥺",
-    "One selfie? 📸😅",
-    "30 mins? 😭",
-    "Pleaseee 💖",
-    "My heart 😔",
-    "Don’t do this 😂",
-    "Say YES 😤❤️"
+    "Just coffee? ☕🥺","One selfie? 📸😅","30 mins? 😭",
+    "Pleaseee 💖","My heart 😔","Don’t do this 😂","Say YES 😤❤️"
   ];
 
   showBubble(btn,msgs[no3Count%msgs.length]);
@@ -372,35 +371,24 @@ function no3(){
 
 slider.addEventListener("input",()=>{
 
-  const v = Number(slider.value);
+  const v=Number(slider.value);
 
-  sliderText.textContent = v+"%";
-  sliderGlow.style.opacity = v/100;
+  sliderText.textContent=v+"%";
+  sliderGlow.style.opacity=v/100;
 
   shakeApp();
 
-  if(v>=70 && v<80){
-    sliderMsg.textContent="YES YES 😍💖";
-  }
-  else if(v>=80 && v<90){
-    sliderMsg.textContent="BINGO 🔥😆";
-  }
-  else if(v>=90 && v<100){
-    sliderMsg.textContent="CONGOOO 💍💖";
-  }
+  if(v>=70&&v<80) sliderMsg.textContent="YES YES 😍💖";
+  else if(v>=80&&v<90) sliderMsg.textContent="BINGO 🔥😆";
+  else if(v>=90&&v<100) sliderMsg.textContent="CONGOOO 💍💖";
   else{
-    const msgs=[
-      "Nice 😍",
-      "Keep going 😌",
-      "Almost 💖",
-      "Don’t stop 🥺"
-    ];
+    const msgs=["Nice 😍","Keep going 😌","Almost 💖","Don’t stop 🥺"];
     sliderMsg.textContent=msgs[Math.floor(v/25)];
   }
 
-  if(v>=100 && !ringDone){
+  if(v>=100&&!ringDone){
 
-    ringDone = true;
+    ringDone=true;
 
     explodeRing();
     unlockGate();
@@ -413,6 +401,14 @@ function explodeRing(){
 
   sliderRing.style.display="block";
   sliderRing.classList.add("ringBoom");
+
+  if(pageFlash){
+    pageFlash.classList.add("flash");
+
+    setTimeout(()=>{
+      pageFlash.classList.remove("flash");
+    },600);
+  }
 
   setTimeout(()=>{
 
@@ -430,9 +426,7 @@ function unlockGate(){
 
   show("s5");
 
-  setTimeout(()=>{
-    startPrank();
-  },1600);
+  setTimeout(startPrank,1600);
 
 }
 
@@ -441,19 +435,45 @@ function startPrank(){
 
   if(prankStarted) return;
 
-  prankStarted = true;
+  prankStarted=true;
 
   bgAudio.pause();
 
-  videoBox.style.display = "block";
+  videoBox.style.display="block";
 
-  wnVideo.currentTime = 0;
+
+  // Show loader until ready
+  if(videoLoader && !wnReady){
+    videoLoader.style.display="flex";
+  }
+
+
+  const waitForVideo = ()=>{
+
+    if(!wnReady){
+
+      setTimeout(waitForVideo,300);
+      return;
+    }
+
+    playWN();
+  };
+
+  waitForVideo();
+
+}
+
+
+function playWN(){
+
+  wnVideo.currentTime=0;
   wnVideo.style.display="block";
-  wnVideo.play();
+
+  wnVideo.play().catch(()=>{});
 
 
-  // Fallback if video end fails
-  let forceEnd = setTimeout(()=>{
+  // Backup timer
+  let forceEnd=setTimeout(()=>{
 
     if(!wnVideo.ended){
 
@@ -464,10 +484,10 @@ function startPrank(){
       startEnding();
     }
 
-  }, (wnVideo.duration || 2)*1000 + 800);
+  },(wnVideo.duration||2)*1000+1000);
 
 
-  wnVideo.onended = ()=>{
+  wnVideo.onended=()=>{
 
     clearTimeout(forceEnd);
 
@@ -486,7 +506,7 @@ function startPrank(){
 
 function crossFade(){
 
-  bklAudio.volume = 0;
+  bklAudio.volume=0;
   bklAudio.play();
 
   let v=0;
@@ -512,9 +532,8 @@ function crossFade(){
 function startEnding(){
 
   mkcVideo.style.display="block";
-  mkcVideo.play();
+  mkcVideo.play().catch(()=>{});
 
-  // Show overlay after 5 sec
   setTimeout(()=>{
 
     if(videoOverlay){
