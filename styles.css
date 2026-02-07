@@ -1,552 +1,561 @@
-/* ================= GLOBAL ================= */
+/* ================= RESET ================= */
 
-const bgAudio = document.getElementById("bgAudio");
-const bklAudio = document.getElementById("bklAudio");
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Poppins",sans-serif;
+}
 
-const wnVideo = document.getElementById("wnVideo");
-const mkcVideo = document.getElementById("mkcVideo");
-const videoBox = document.getElementById("videoBox");
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
 
-const videoOverlay = document.getElementById("videoOverlay");
-const videoLoader = document.getElementById("videoLoader");
-
-const bubble = document.getElementById("bubble");
-
-const slider = document.getElementById("slider");
-const sliderText = document.getElementById("sliderText");
-const sliderMsg = document.getElementById("sliderMsg");
-const sliderGlow = document.getElementById("sliderGlow");
-const sliderRing = document.getElementById("sliderRing");
-
-const pageFlash = document.getElementById("pageFlash");
-
-const app = document.getElementById("app");
-const heartRain = document.getElementById("heartRain");
-
-
-let no1Count = 0;
-let no2Count = 0;
-let no3Count = 0;
-
-let audioUnlocked = false;
-let bubbleTimer = null;
-
-let prankStarted = false;
-let ringDone = false;
-let wnReady = false;
-
-
-/* ================= INIT ================= */
-
-window.addEventListener("DOMContentLoaded", () => {
-
-  initHeartRain();
-  initFadeText();
-  initTypewriter();
-  unlockAudio();
-
-  if(videoOverlay) videoOverlay.style.display = "none";
-  if(videoLoader)  videoLoader.style.display  = "none";
-
-
-  // Detect when WN is ready
-  if(wnVideo){
-
-    wnVideo.addEventListener("canplaythrough",()=>{
-      wnReady = true;
-
-      if(videoLoader){
-        videoLoader.style.display = "none";
-      }
-    });
-
-  }
-
-});
-
-
-/* ================= AUDIO ================= */
-
-function unlockAudio(){
-
-  document.body.addEventListener("click",()=>{
-
-    if(!audioUnlocked){
-
-      bgAudio.volume = 0.4;
-      bgAudio.play().catch(()=>{});
-
-      audioUnlocked = true;
-    }
-
-  },{ once:true });
-
+body{
+  background:radial-gradient(circle at top,#ffd1dc,#ff9eb8,#ff7aa2);
 }
 
 
-/* ================= HEART RAIN ================= */
+/* ================= BACKGROUND ================= */
 
-function initHeartRain(){
+#bgGlow{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(
+    circle at center,
+    rgba(255,255,255,0.25),
+    transparent 70%
+  );
+  animation:pulse 6s infinite alternate;
+  z-index:0;
+}
 
-  setInterval(()=>{
+@keyframes pulse{
+  from{opacity:.4}
+  to{opacity:.85}
+}
 
-    const h = document.createElement("div");
+#heartRain{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
 
-    h.className = "heart";
-    h.innerHTML = ["💖","💕","❤️","💘"][Math.floor(Math.random()*4)];
+#finalHearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:150;
+}
 
-    h.style.left = Math.random()*100+"vw";
-    h.style.fontSize = 16+Math.random()*18+"px";
-    h.style.animationDuration = 6+Math.random()*6+"s";
+.heart{
+  position:absolute;
+  top:-40px;
+  animation:fall linear infinite;
+  opacity:.9;
+}
 
-    heartRain.appendChild(h);
+@keyframes fall{
+  from{transform:translateY(-40px) rotate(0deg)}
+  to{transform:translateY(110vh) rotate(360deg)}
+}
 
-    setTimeout(()=>h.remove(),12000);
 
-  },450);
+/* ================= PAGE FLASH ================= */
 
+#pageFlash{
+  position:fixed;
+  inset:0;
+
+  background:radial-gradient(circle,#fff,#ff4f7c,#ff004c);
+
+  opacity:0;
+
+  pointer-events:none;
+
+  z-index:99999;
+}
+
+.flash{
+  animation:flash .6s ease-out;
+}
+
+@keyframes flash{
+  0%{opacity:0}
+  40%{opacity:.9}
+  100%{opacity:0}
+}
+
+
+/* ================= MAIN APP ================= */
+
+#app{
+  position:relative;
+  width:100%;
+  height:100%;
+  z-index:10;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:15px;
+}
+
+
+/* ================= SCREENS ================= */
+
+.screen{
+  display:none;
+  flex-direction:column;
+  gap:18px;
+
+  background:rgba(255,255,255,0.97);
+  padding:26px 22px;
+  border-radius:26px;
+
+  width:100%;
+  max-width:380px;
+
+  text-align:center;
+
+  box-shadow:
+    0 0 30px rgba(255,0,90,0.25),
+    0 0 70px rgba(255,0,120,0.18);
+
+  position:relative;
+  z-index:20;
+
+  animation:pop .4s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.9);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.screen.active{
+  display:flex;
 }
 
 
 /* ================= TEXT ================= */
 
-function initFadeText(){
+h1,h2,h3,p{
+  color:#ff2e6f;
+  line-height:1.55;
+}
 
-  document.querySelectorAll(".fadeText").forEach(el=>{
+h1{font-size:1.85rem;font-weight:700}
+h2{font-size:1.25rem;font-weight:600}
+h3{font-size:1.08rem;font-weight:500}
+p{font-size:.95rem}
 
-    el.style.opacity = 0;
 
-    setTimeout(()=>{
-      el.style.opacity = 1;
-    },200);
+/* ================= FADE ================= */
 
-  });
+.fadeText{
+  opacity:0;
+  animation:fade 1s forwards;
+}
 
+.delay1{animation-delay:.5s}
+.delay2{animation-delay:1s}
+.delay3{animation-delay:1.5s}
+
+@keyframes fade{
+  to{opacity:1}
 }
 
 
-function initTypewriter(){
+/* ================= BUTTONS ================= */
 
-  document.querySelectorAll(".typeText").forEach(el=>{
+.btns{
+  display:flex;
+  justify-content:center;
+  gap:16px;
 
-    const raw = el.dataset.text || "";
-    const text = Array.from(raw); // Fix emoji bug
+  position:relative;
+  z-index:30;
+}
 
-    el.textContent = "";
+button{
+  background:linear-gradient(135deg,#ff3b6f,#ff8fab);
+  color:white;
 
-    let i = 0;
+  border:none;
+  border-radius:32px;
 
-    const t = setInterval(()=>{
+  padding:11px 24px;
+  font-size:15px;
+  font-weight:600;
 
-      if(i < text.length){
-        el.textContent += text[i++];
-      }else{
-        clearInterval(t);
-      }
+  cursor:pointer;
 
-    },45);
+  box-shadow:
+    0 0 15px rgba(255,79,124,0.7),
+    inset 0 0 6px rgba(255,255,255,0.45);
 
-  });
+  transition:.25s;
 
+  position:relative;
+  z-index:35;
+}
+
+button:hover{
+  transform:scale(1.12);
+  box-shadow:0 0 28px rgba(255,79,124,.95);
+}
+
+button:active{
+  transform:scale(.94);
 }
 
 
-/* ================= SCREEN ================= */
+/* YES PULSE */
 
-function show(id){
-
-  document.querySelectorAll(".screen")
-    .forEach(s=>s.classList.remove("active"));
-
-  const el = document.getElementById(id);
-  if(el) el.classList.add("active");
-
-  initFadeText();
-  initTypewriter();
-
+.yesPulse{
+  animation:yesPulse .5s;
 }
 
-
-/* ================= EFFECT ================= */
-
-function yesEffect(btn){
-
-  btn.classList.add("yesPulse");
-
-  shakeApp();
-
-  setTimeout(()=>{
-    btn.classList.remove("yesPulse");
-  },500);
-
-}
-
-
-function shakeApp(){
-
-  let i=0;
-
-  const t=setInterval(()=>{
-
-    app.style.transform =
-      `translate(${Math.random()*6-3}px,
-                 ${Math.random()*6-3}px)`;
-
-    if(++i>8){
-      clearInterval(t);
-      app.style.transform="translate(0,0)";
-    }
-
-  },35);
-
+@keyframes yesPulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.3)}
+  100%{transform:scale(1)}
 }
 
 
 /* ================= POPUP ================= */
 
-function showBubble(btn,msg){
+#bubble{
+  position:fixed;
 
-  if(bubbleTimer) clearTimeout(bubbleTimer);
+  padding:8px 16px;
 
-  bubble.textContent = msg;
+  background:white;
+  border-radius:20px;
 
-  const r = btn.getBoundingClientRect();
+  font-size:13px;
+  font-weight:600;
 
-  bubble.style.left = (r.left+r.width/2)+"px";
-  bubble.style.top  = (r.bottom+12)+"px";
+  color:#ff245a;
 
-  bubble.classList.add("show");
+  box-shadow:0 0 20px rgba(255,105,135,.9);
 
-  bubbleTimer=setTimeout(()=>{
-    bubble.classList.remove("show");
-  },2800);
+  pointer-events:none;
 
+  opacity:0;
+  transform:translateX(-50%) scale(.7);
+
+  transition:.25s;
+
+  z-index:9999;
+
+  white-space:nowrap;
 }
 
-
-/* ================= SAFE JUMP ================= */
-
-function jumpSafe(btn){
-
-  const appBox = app.getBoundingClientRect();
-  const yesBtn = document.querySelector(".yesBtn");
-
-  let yesBox=null;
-  if(yesBtn) yesBox=yesBtn.getBoundingClientRect();
-
-  const margin=30;
-
-  let x,y,tries=0;
-
-  do{
-
-    x = appBox.left+margin+
-        Math.random()*(appBox.width-140);
-
-    y = appBox.top+margin+
-        Math.random()*(appBox.height-140);
-
-    tries++;
-
-  }while(
-    yesBox &&
-    overlap(x,y,yesBox) &&
-    tries<20
-  );
-
-  btn.style.position="fixed";
-  btn.style.left=x+"px";
-  btn.style.top =y+"px";
-
-}
-
-
-function overlap(x,y,yes){
-
-  return(
-    x>yes.left-80 &&
-    x<yes.right+80 &&
-    y>yes.top-80 &&
-    y<yes.bottom+80
-  );
-
-}
-
-
-/* ================= SCREEN 1 ================= */
-
-function yes1(){
-
-  yesEffect(event.target);
-
-  setTimeout(()=>show("s2"),500);
-
-}
-
-
-function no1(){
-
-  const btn=event.target;
-
-  no1Count++;
-
-  jumpSafe(btn);
-
-  const msgs=[
-    "Don’t lie 😤💖","Try again 😏","Riyaaa please 🥺",
-    "You know it 😌","Stop teasing 😂","Just say yes 😭",
-    "My heart 💔","Last chance 😤❤️"
-  ];
-
-  showBubble(btn,msgs[no1Count%msgs.length]);
-
-  if(no1Count>=10) yes1();
-
-}
-
-
-/* ================= SCREEN 2 ================= */
-
-function yes2(){
-
-  yesEffect(event.target);
-
-  setTimeout(()=>show("s3"),500);
-
-}
-
-
-function no2(){
-
-  const btn=event.target;
-
-  no2Count++;
-
-  jumpSafe(btn);
-
-  const msgs=[
-    "Excuse me?? 😤😂","You better know 💖",
-    "Seriously?? 😭","Press YES 😤","Don’t joke 😏"
-  ];
-
-  showBubble(btn,msgs[no2Count%msgs.length]);
-
-  if(no2Count>=5) yes2();
-
-}
-
-
-/* ================= SCREEN 3 ================= */
-
-function yes3(){
-
-  yesEffect(event.target);
-
-  setTimeout(()=>show("s4"),500);
-
-}
-
-
-function no3(){
-
-  const btn=event.target;
-
-  no3Count++;
-
-  jumpSafe(btn);
-
-  const msgs=[
-    "Just coffee? ☕🥺","One selfie? 📸😅","30 mins? 😭",
-    "Pleaseee 💖","My heart 😔","Don’t do this 😂","Say YES 😤❤️"
-  ];
-
-  showBubble(btn,msgs[no3Count%msgs.length]);
-
-  if(no3Count>=10) yes3();
-
+#bubble.show{
+  opacity:1;
+  transform:translateX(-50%) scale(1.08);
 }
 
 
 /* ================= SLIDER ================= */
 
-slider.addEventListener("input",()=>{
+#sliderBox{
+  position:relative;
+  width:100%;
+  margin:18px 0;
+  z-index:30;
+}
 
-  const v=Number(slider.value);
+#slider{
+  width:100%;
+  height:30px;
 
-  sliderText.textContent=v+"%";
-  sliderGlow.style.opacity=v/100;
+  appearance:none;
+  border-radius:30px;
 
-  shakeApp();
+  background:linear-gradient(
+    90deg,
+    #ff004c,
+    #ff4f7c,
+    #ff9eb8,
+    #ff004c
+  );
 
-  if(v>=70&&v<80) sliderMsg.textContent="YES YES 😍💖";
-  else if(v>=80&&v<90) sliderMsg.textContent="BINGO 🔥😆";
-  else if(v>=90&&v<100) sliderMsg.textContent="CONGOOO 💍💖";
-  else{
-    const msgs=["Nice 😍","Keep going 😌","Almost 💖","Don’t stop 🥺"];
-    sliderMsg.textContent=msgs[Math.floor(v/25)];
+  background-size:300% 100%;
+  animation:flow 3.2s linear infinite;
+
+  outline:none;
+
+  box-shadow:0 0 18px rgba(255,0,80,.75);
+}
+
+@keyframes flow{
+  to{background-position:300% 0}
+}
+
+#slider::-webkit-slider-thumb{
+  appearance:none;
+
+  width:36px;
+  height:36px;
+
+  border-radius:50%;
+
+  background:radial-gradient(circle,#fff,#ff004c);
+
+  border:2px solid white;
+
+  box-shadow:
+    0 0 22px #ff004c,
+    0 0 40px pink;
+
+  cursor:pointer;
+}
+
+#slider::-moz-range-thumb{
+  width:36px;
+  height:36px;
+
+  border-radius:50%;
+
+  background:#ff004c;
+  border:2px solid white;
+}
+
+
+/* Glow */
+
+#sliderGlow{
+  position:absolute;
+  inset:-10px;
+
+  border-radius:30px;
+
+  background:radial-gradient(
+    circle,
+    rgba(255,0,80,.5),
+    transparent 70%
+  );
+
+  opacity:0;
+  pointer-events:none;
+}
+
+
+/* Explosion Ring */
+
+#sliderRing{
+  position:absolute;
+
+  top:50%;
+  left:50%;
+
+  width:20px;
+  height:20px;
+
+  border:3px solid rgba(255,0,90,.9);
+  border-radius:50%;
+
+  transform:translate(-50%,-50%);
+
+  display:none;
+
+  pointer-events:none;
+}
+
+.ringBoom{
+  animation:ringBoom .8s ease-out forwards;
+}
+
+@keyframes ringBoom{
+  from{
+    width:20px;
+    height:20px;
+    opacity:1;
+  }
+  to{
+    width:300px;
+    height:300px;
+    opacity:0;
+  }
+}
+
+
+/* ================= VIDEO BOX ================= */
+
+#videoBox{
+  position:fixed;
+
+  top:50%;
+  left:50%;
+
+  transform:translate(-50%,-50%);
+
+  width:92%;
+  max-width:390px;
+
+  aspect-ratio:16/9;
+
+  background:black;
+
+  border-radius:22px;
+
+  overflow:hidden;
+
+  display:none;
+
+  box-shadow:
+    0 0 28px rgba(255,0,90,.8),
+    0 0 70px rgba(255,0,120,.45);
+
+  z-index:200;
+}
+
+#videoBox video{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+}
+
+
+/* ================= VIDEO LOADER ================= */
+
+#videoLoader{
+  position:absolute;
+  inset:0;
+
+  background:rgba(0,0,0,.78);
+
+  color:white;
+
+  font-size:15px;
+  font-weight:600;
+
+  display:none;
+
+  justify-content:center;
+  align-items:center;
+
+  text-align:center;
+
+  z-index:400;
+
+  backdrop-filter:blur(3px);
+}
+
+
+/* ================= VIDEO OVERLAY ================= */
+
+#videoOverlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+
+  width:100%;
+  height:40%;
+
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.95),
+    rgba(0,0,0,.65),
+    transparent
+  );
+
+  color:white;
+
+  display:none;
+
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+
+  text-align:center;
+
+  padding:20px 14px;
+
+  z-index:500;
+
+  animation:overlayIn .6s ease;
+}
+
+@keyframes overlayIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+
+/* Overlay Text */
+
+#videoOverlay p{
+  font-size:14px;
+  line-height:1.6;
+
+  margin-bottom:14px;
+
+  text-shadow:0 0 12px rgba(255,255,255,.35);
+}
+
+
+/* Overlay Button */
+
+#videoOverlay button{
+  background:linear-gradient(135deg,#ff3b6f,#ff9eb8);
+
+  border:none;
+  border-radius:28px;
+
+  padding:9px 24px;
+
+  font-size:14px;
+  font-weight:600;
+
+  color:white;
+
+  cursor:pointer;
+
+  box-shadow:0 0 20px rgba(255,0,90,.85);
+
+  transition:.25s;
+}
+
+#videoOverlay button:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 30px rgba(255,0,90,1);
+}
+
+#videoOverlay button:active{
+  transform:scale(.95);
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:360px){
+
+  h2{font-size:1.08rem}
+
+  button{
+    font-size:14px;
+    padding:9px 18px;
   }
 
-  if(v>=100&&!ringDone){
-
-    ringDone=true;
-
-    explodeRing();
-    unlockGate();
+  #videoBox{
+    max-width:330px;
   }
 
-});
-
-
-function explodeRing(){
-
-  sliderRing.style.display="block";
-  sliderRing.classList.add("ringBoom");
-
-  if(pageFlash){
-    pageFlash.classList.add("flash");
-
-    setTimeout(()=>{
-      pageFlash.classList.remove("flash");
-    },600);
+  #videoOverlay{
+    height:45%;
   }
-
-  setTimeout(()=>{
-
-    sliderRing.style.display="none";
-    sliderRing.classList.remove("ringBoom");
-
-  },900);
-
-}
-
-
-/* ================= PRANK ================= */
-
-function unlockGate(){
-
-  show("s5");
-
-  setTimeout(startPrank,1600);
-
-}
-
-
-function startPrank(){
-
-  if(prankStarted) return;
-
-  prankStarted=true;
-
-  bgAudio.pause();
-
-  videoBox.style.display="block";
-
-
-  // Show loader until ready
-  if(videoLoader && !wnReady){
-    videoLoader.style.display="flex";
-  }
-
-
-  const waitForVideo = ()=>{
-
-    if(!wnReady){
-
-      setTimeout(waitForVideo,300);
-      return;
-    }
-
-    playWN();
-  };
-
-  waitForVideo();
-
-}
-
-
-function playWN(){
-
-  wnVideo.currentTime=0;
-  wnVideo.style.display="block";
-
-  wnVideo.play().catch(()=>{});
-
-
-  // Backup timer
-  let forceEnd=setTimeout(()=>{
-
-    if(!wnVideo.ended){
-
-      wnVideo.pause();
-      wnVideo.style.display="none";
-
-      crossFade();
-      startEnding();
-    }
-
-  },(wnVideo.duration||2)*1000+1000);
-
-
-  wnVideo.onended=()=>{
-
-    clearTimeout(forceEnd);
-
-    crossFade();
-
-    wnVideo.pause();
-    wnVideo.style.display="none";
-
-    startEnding();
-  };
-
-}
-
-
-/* ================= AUDIO FADE ================= */
-
-function crossFade(){
-
-  bklAudio.volume=0;
-  bklAudio.play();
-
-  let v=0;
-
-  const t=setInterval(()=>{
-
-    v+=0.05;
-
-    if(v>=0.6){
-      v=0.6;
-      clearInterval(t);
-    }
-
-    bklAudio.volume=v;
-
-  },50);
-
-}
-
-
-/* ================= END ================= */
-
-function startEnding(){
-
-  mkcVideo.style.display="block";
-  mkcVideo.play().catch(()=>{});
-
-  setTimeout(()=>{
-
-    if(videoOverlay){
-      videoOverlay.style.display="flex";
-    }
-
-  },5000);
-
-}
-
-
-/* ================= REPLAY ================= */
-
-function replay(){
-  location.reload();
 }
