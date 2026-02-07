@@ -26,29 +26,48 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <!-- ================= AUDIO ================= -->
 
-<audio id="bgAudio" src="assets/Background.webm" loop preload="auto"></audio>
-<audio id="bklAudio" src="assets/BKL.webm" loop preload="auto"></audio>
+<audio id="bgAudio"
+       src="assets/Background.webm"
+       loop
+       preload="auto">
+</audio>
+
+<audio id="bklAudio"
+       src="assets/BKL.webm"
+       loop
+       preload="auto">
+</audio>
 
 
 <!-- ================= VIDEO BOX ================= -->
 
 <div id="videoBox">
 
+  <!-- LOADING OVERLAY -->
+  <div id="videoLoader">
+    Loading surprise… 💖😌
+  </div>
+
+
   <!-- WN VIDEO -->
   <video id="wnVideo"
          src="assets/WN.mp4"
+         preload="auto"
          playsinline
          webkit-playsinline>
   </video>
 
+
   <!-- MKC VIDEO -->
   <video id="mkcVideo"
          src="assets/MKC.mp4"
+         preload="auto"
          muted
          loop
          playsinline
          webkit-playsinline>
   </video>
+
 
   <!-- FINAL OVERLAY -->
   <div id="videoOverlay">
@@ -66,6 +85,11 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   </div>
 
 </div>
+
+
+<!-- ================= PAGE FLASH ================= -->
+
+<div id="pageFlash"></div>
 
 
 <!-- ================= POPUP ================= -->
@@ -127,7 +151,6 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <section class="screen" id="s3">
 
-  <!-- FIXED SINGLE-LINE TEXT -->
   <h2 class="typeText"
       data-text="I know your time is precious… ⏳💗 But can you take out just one day to go on a date with me? 😌">
   </h2>
