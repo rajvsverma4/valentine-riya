@@ -65,22 +65,10 @@ function initHeartRain(){
         h.className = "heart";
         h.innerHTML = ["💖","💕","❤️","💘"][Math.floor(Math.random()*4)];
         h.style.left = Math.random()*100+"vw";
-        h.style.animationDuration = 6+Math.random()*6+"s";
+        h.style.animationDuration = "6s";
         heartRain.appendChild(h);
         setTimeout(()=>h.remove(), 12000);
     }, 450);
-}
-
-function startFinalHearts(){
-    setInterval(() => {
-        const h = document.createElement("div");
-        h.className = "heart";
-        h.innerHTML = ["💖","💕","❤️","💘","😍","🥰"][Math.floor(Math.random()*6)];
-        h.style.left = Math.random()*100+"vw";
-        h.style.animationDuration = 5+Math.random()*4+"s";
-        finalHearts.appendChild(h);
-        setTimeout(()=>h.remove(), 9000);
-    }, 350);
 }
 
 function initTypewriter(container) {
@@ -239,14 +227,9 @@ function playWN(){
     let p = wnVideo.play();
     if (p !== undefined) {
         p.catch(() => { 
-            // Fallback: Start muted if blocked
             wnVideo.muted = true; 
             wnVideo.play(); 
-
-            // RECOVERY FIX: Try to restore sound after 1s
-            setTimeout(() => {
-                wnVideo.muted = false;
-            }, 1000);
+            setTimeout(() => { wnVideo.muted = false; }, 1000);
         });
     }
 
@@ -271,14 +254,24 @@ function crossFadeAudio(){
 
 function startEnding(){
     mkcVideo.style.display="block";
-    mkcVideo.muted = true; // MKC remains muted
+    mkcVideo.muted = true; // Stay muted as requested
     mkcVideo.play().catch(() => {});
     
     startFinalHearts();
     setTimeout(() => {
         videoOverlay.style.display="flex";
-        videoOverlay.style.animation = "pop 0.5s ease forwards";
     }, 4000);
+}
+
+function startFinalHearts(){
+    setInterval(() => {
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.innerHTML = ["💖","💕","❤️","💘","😍","🥰"][Math.floor(Math.random()*6)];
+        h.style.left = Math.random()*100+"vw";
+        finalHearts.appendChild(h);
+        setTimeout(()=>h.remove(), 9000);
+    }, 350);
 }
 
 function replay(){ location.reload(); }
