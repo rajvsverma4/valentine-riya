@@ -26,7 +26,6 @@ let wnReady = false, wnStarted = false;
 window.addEventListener("DOMContentLoaded", () => {
     initHeartRain();
     unlockAudio();
-    // Start initial animations for Screen 1
     initTypewriter(document);
     initFadeText(document);
 
@@ -156,6 +155,7 @@ function no1(){
 function yes2(){ yesEffect(event.target); setTimeout(()=>show("s3"),500); }
 function no2(){
     no2Count++; jumpSafe(event.target);
+    // RESTORED No2 layers
     const msgs=["Excuse me?? 😤😂","You better know 💖","Seriously?? 😭","Don’t joke 😏"];
     showBubble(event.target, msgs[no2Count % msgs.length]);
     if(no2Count>=5) yes2();
@@ -197,7 +197,7 @@ function explodeRing(){
     }, 900);
 }
 
-/* ================= VIDEO (RECOVERY FIX) ================= */
+/* ================= VIDEO & RECOVERY ================= */
 function startPrank(){
     if(prankStarted) return;
     prankStarted = true;
@@ -251,7 +251,6 @@ function startEnding(){
     mkcVideo.muted = true; 
     mkcVideo.play().catch(() => {});
     
-    // Prevent double heart timer
     if(!window.finalHeartTimer) {
         window.finalHeartTimer = setInterval(() => {
             const h = document.createElement("div");
@@ -265,7 +264,6 @@ function startEnding(){
 
     setTimeout(() => {
         videoOverlay.style.display="flex";
-        videoOverlay.style.animation = "pop 0.5s ease forwards";
     }, 4000);
 }
 
