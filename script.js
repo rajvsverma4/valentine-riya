@@ -41,7 +41,6 @@ window.addEventListener("DOMContentLoaded", () => {
   initTypewriter();
   unlockAudio();
 
-  // Hide overlay at start
   if (videoOverlay) {
     videoOverlay.style.display = "none";
   }
@@ -446,14 +445,31 @@ function startPrank(){
 
   bgAudio.pause();
 
-  videoBox.style.display="block";
+  videoBox.style.display = "block";
 
   wnVideo.currentTime = 0;
   wnVideo.style.display="block";
   wnVideo.play();
 
 
+  // Fallback if video end fails
+  let forceEnd = setTimeout(()=>{
+
+    if(!wnVideo.ended){
+
+      wnVideo.pause();
+      wnVideo.style.display="none";
+
+      crossFade();
+      startEnding();
+    }
+
+  }, (wnVideo.duration || 2)*1000 + 800);
+
+
   wnVideo.onended = ()=>{
+
+    clearTimeout(forceEnd);
 
     crossFade();
 
