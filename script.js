@@ -30,15 +30,17 @@ window.addEventListener("DOMContentLoaded", () => {
     if(videoOverlay) videoOverlay.style.display = "none";
     if(videoLoader)  videoLoader.style.display  = "none";
 
+    // Detect when video is ready to prevent black screen lag
     if(wnVideo){
         wnVideo.addEventListener("canplaythrough", () => {
             wnReady = true;
             if(videoLoader) videoLoader.style.display = "none";
         });
+        wnVideo.addEventListener("loadedmetadata", () => { wnReady = true; });
     }
 });
 
-/* ================= AUDIO ================= */
+/* ================= AUDIO UNLOCK ================= */
 function unlockAudio(){
     document.body.addEventListener("click", () => {
         if(!audioUnlocked){
@@ -63,10 +65,12 @@ function initHeartRain(){
     }, 450);
 }
 
-/* ================= TYPEWRITER (FIXED) ================= */
+/* ================= TYPEWRITER (THE DISTORTION FIX) ================= */
 function initTypewriter(container = document) {
     container.querySelectorAll(".typeText").forEach(el => {
         const raw = el.dataset.text || "";
+        
+        // Clear existing interval to prevent text overlapping/distortion
         if (el.typingInterval) clearInterval(el.typingInterval);
 
         let chars;
@@ -103,11 +107,11 @@ function show(id){
     if(el) {
         el.classList.add("active");
         initFadeText(el);
-        initTypewriter(el);
+        initTypewriter(el); // Scoped only to the current screen
     }
 }
 
-/* ================= BUTTON EFFECTS ================= */
+/* ================= BUTTON EFFECTS & JUMP ================= */
 function yesEffect(btn){
     btn.classList.add("yesPulse");
     shakeApp();
@@ -135,14 +139,28 @@ function showBubble(btn, msg){
     bubbleTimer = setTimeout(() => bubble.classList.remove("show"), 2800);
 }
 
-function jumpSafe(btn){
+// RESTORED: NO button avoids overlapping the YES button
+function jumpSafe(btn) {
     const appBox = app.getBoundingClientRect();
+    const yesBtn = document.querySelector(".screen.active .yesBtn");
+    let yesBox = yesBtn ? yesBtn.getBoundingClientRect() : null;
+
     const margin = 30;
-    let x = appBox.left + margin + Math.random()*(appBox.width-140);
-    let y = appBox.top + margin + Math.random()*(appBox.height-140);
+    let x, y, tries = 0;
+
+    do {
+        x = appBox.left + margin + Math.random() * (appBox.width - 140);
+        y = appBox.top + margin + Math.random() * (appBox.height - 140);
+        tries++;
+    } while (yesBox && overlap(x, y, yesBox) && tries < 25);
+
     btn.style.position = "fixed";
     btn.style.left = x + "px";
     btn.style.top = y + "px";
+}
+
+function overlap(x, y, yes) {
+    return (x > yes.left - 80 && x < yes.right + 80 && y > yes.top - 80 && y < yes.bottom + 80);
 }
 
 /* SCREEN ACTIONS */
@@ -191,12 +209,23 @@ function explodeRing(){
     }, 900);
 }
 
+/* RESTORED: Smart Buffer Logic */
 function startPrank(){
     if(prankStarted) return;
     prankStarted = true;
     bgAudio.pause();
     videoBox.style.display = "block";
-    playWN();
+    if(videoLoader && !wnReady) videoLoader.style.display = "flex";
+    waitForWN();
+}
+
+function waitForWN() {
+    if (wnReady) {
+        if (videoLoader) videoLoader.style.display = "none";
+        playWN();
+    } else {
+        setTimeout(waitForWN, 300);
+    }
 }
 
 function playWN(){
@@ -206,9 +235,20 @@ function playWN(){
     wnVideo.play().catch(()=>{});
     wnVideo.onended = () => {
         wnVideo.style.display="none";
+        bklAudio.volume = 0;
         bklAudio.play();
+        crossFadeAudio();
         startEnding();
     };
+}
+
+function crossFadeAudio(){
+    let v = 0;
+    const t = setInterval(() => {
+        v += 0.05;
+        if(v >= 0.6) { v = 0.6; clearInterval(t); }
+        bklAudio.volume = v;
+    }, 50);
 }
 
 function startEnding(){
@@ -222,7 +262,7 @@ function startFinalHearts(){
     setInterval(() => {
         const h = document.createElement("div");
         h.className = "heart";
-        h.innerHTML = ["💖","😍","🥰"][Math.floor(Math.random()*3)];
+        h.innerHTML = ["💖","😍","🥰","✨"][Math.floor(Math.random()*4)];
         h.style.left = Math.random()*100+"vw";
         finalHearts.appendChild(h);
         setTimeout(()=>h.remove(), 9000);
