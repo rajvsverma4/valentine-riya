@@ -38,14 +38,13 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-/* MOBILE AUDIO/VIDEO PRIMING */
+/* FULL MOBILE PRIMING */
 function unlockAudio(){
     document.body.addEventListener("click", () => {
         if(!audioUnlocked){
             bgAudio.volume = 0.4;
             bgAudio.play().catch(()=>{});
 
-            // UNLOCKS SOUND FOR MOBILE
             wnVideo.load();
             mkcVideo.load();
             bklAudio.load();
@@ -172,7 +171,6 @@ function no1(){
 function yes2(){ yesEffect(event.target); setTimeout(()=>show("s3"),500); }
 function no2(){
     no2Count++; jumpSafe(event.target);
-    // RESTORED 2nd screen layers
     const msgs=["Excuse me?? 😤😂","You better know 💖","Seriously?? 😭","Don’t joke 😏"];
     showBubble(event.target, msgs[no2Count % msgs.length]);
     if(no2Count>=5) yes2();
@@ -214,7 +212,7 @@ function explodeRing(){
     }, 900);
 }
 
-/* ================= VIDEO (MOBILE STABLE) ================= */
+/* ================= VIDEO (RECOVERY FIX) ================= */
 function startPrank(){
     if(prankStarted) return;
     prankStarted = true;
@@ -241,8 +239,14 @@ function playWN(){
     let p = wnVideo.play();
     if (p !== undefined) {
         p.catch(() => { 
+            // Fallback: Start muted if blocked
             wnVideo.muted = true; 
             wnVideo.play(); 
+
+            // RECOVERY FIX: Try to restore sound after 1s
+            setTimeout(() => {
+                wnVideo.muted = false;
+            }, 1000);
         });
     }
 
@@ -267,8 +271,7 @@ function crossFadeAudio(){
 
 function startEnding(){
     mkcVideo.style.display="block";
-    // MKC remains muted
-    mkcVideo.muted = true;
+    mkcVideo.muted = true; // MKC remains muted
     mkcVideo.play().catch(() => {});
     
     startFinalHearts();
