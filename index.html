@@ -1,157 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Riya 💖</title>
 
-    <title>Raj ❤️ Supriya | Valentine 💝</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
-    <!-- Floating Background Elements -->
-    <div class="floating-elements"></div>
+<!-- Audio -->
+<audio id="bgAudio" src="assets/Background.webm" loop></audio>
+<audio id="bklAudio" src="assets/BKL.webm" loop></audio>
+
+<!-- Videos -->
+<video id="wnVideo" src="assets/WN.mp4"></video>
+<video id="mkcVideo" src="assets/MKC.mp4" muted loop></video>
+
+<!-- Main Container -->
+<div id="app">
+
+  <!-- Screens -->
+
+  <section class="screen active" id="s1">
+    <h2>Valentine is not only for relationships…<br>it’s for everyone we adore 💖</h2>
+    <p>Can I ask you something… 😌</p>
+    <h3>Are we good friends? 🥺</h3>
+
+    <div class="btns">
+      <button onclick="yes1()">Yes</button>
+      <button id="no1" onclick="no1()">No</button>
+    </div>
+  </section>
 
 
-    <!-- Main Container -->
-    <div class="container">
+  <section class="screen" id="s2">
+    <h2>Do you know how special you are to me, Riya? 💗</h2>
 
-        <!-- Title -->
-        <h1 id="valentineTitle"></h1>
-
-
-        <!-- Music Player -->
-        <div class="music-controls">
-
-            <button id="musicToggle" class="music-btn">
-                🎵 Play Music
-            </button>
-
-            <!-- Background Music -->
-            <audio id="bgMusic" loop>
-                <source src="assets/Background.webm" type="video/webm">
-                Your browser does not support audio.
-            </audio>
-
-        </div>
+    <div class="btns">
+      <button onclick="yes2()">Yes</button>
+      <button id="no2" onclick="no2()">No</button>
+    </div>
+  </section>
 
 
-        <!-- ================= QUESTION 1 ================= -->
+  <section class="screen" id="s3">
+    <h2>
+      I know your time is precious… ⏳💗<br><br>
+      Will you be my Valentine?<br>
+      (Just for one day 🥺👉👈)
+    </h2>
 
-        <div class="question-section" id="question1">
-
-            <h2 id="question1Text"></h2>
-
-            <button
-                class="cute-btn"
-                id="yesBtn1"
-                onclick="handleYesClick()">
-                Yes
-            </button>
-
-            <button
-                class="cute-btn"
-                id="noBtn1"
-                onclick="handleNoClick(event)">
-                No
-            </button>
-
-        </div>
+    <div class="btns">
+      <button onclick="yes3()">Yes</button>
+      <button id="no3" onclick="no3()">No</button>
+    </div>
+  </section>
 
 
-        <!-- ================= QUESTION 2 ================= -->
+  <section class="screen" id="s4">
+    <h2>
+      Complete this to enter my Valentine World 💖✨
+    </h2>
 
-        <div class="question-section hidden" id="question2">
+    <input type="range" min="0" max="100" value="0" id="slider"/>
 
-            <h2 id="question2Text"></h2>
-
-
-            <div class="love-meter">
-
-                <input
-                    type="range"
-                    min="0"
-                    max="10000"
-                    value="100"
-                    class="slider"
-                    id="loveMeter"
-                >
-
-                <p>
-                    <span id="startText"></span>
-                    (<span id="loveValue">100</span>%)
-                </p>
-
-                <p id="extraLove" class="hidden"></p>
-
-            </div>
+    <p id="sliderText">0%</p>
+  </section>
 
 
-            <button
-                class="cute-btn"
-                id="nextBtn"
-                onclick="goToFinal()">
-                Next
-            </button>
-
-        </div>
+  <section class="screen" id="s5">
+    <h1>SHE SAID YES 💍💖</h1>
+  </section>
 
 
-        <!-- ================= QUESTION 3 ================= -->
+  <section class="screen" id="s6">
 
-        <div class="question-section hidden" id="question3">
-
-            <h2 id="question3Text"></h2>
-
-
-            <button
-                class="cute-btn final-yes"
-                id="yesBtn3"
-                onclick="finalYes()">
-                Yes 💖
-            </button>
-
-
-            <button
-                class="cute-btn"
-                id="noBtn3"
-                onclick="moveButton(this)">
-                No 😜
-            </button>
-
-        </div>
-
-
-        <!-- ================= CELEBRATION ================= -->
-
-        <div class="celebration hidden" id="celebration">
-
-            <h2 id="celebrationTitle"></h2>
-
-            <p class="celebration-text" id="celebrationMessage"></p>
-
-            <p class="celebration-text" id="celebrationEmojis"></p>
-
-        </div>
-
+    <div id="overlayText">
+      And yes… we are certainly going on a date soon,<br>
+      Shotu baby 😌💖 — Raj
     </div>
 
+    <button id="replayBtn" onclick="replay()">🔁 Replay</button>
 
-    <!-- Message Bubble -->
-    <div
-        id="noMessageBubble"
-        class="no-message-bubble hidden">
-    </div>
+  </section>
+
+</div>
 
 
-    <!-- Scripts -->
-    <script src="script.js"></script>
-
+<script src="script.js"></script>
 </body>
 </html>
