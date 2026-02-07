@@ -21,9 +21,9 @@ const app = document.getElementById("app");
 const heartRain = document.getElementById("heartRain");
 
 
-let no1 = 0;
-let no2 = 0;
-let no3 = 0;
+let no1Count = 0;
+let no2Count = 0;
+let no3Count = 0;
 
 let audioUnlocked = false;
 let bubbleTimer = null;
@@ -273,7 +273,7 @@ function no1(){
 
   const btn = event.target;
 
-  no1++;
+  no1Count++;
 
   jumpSafe(btn);
 
@@ -288,9 +288,9 @@ function no1(){
     "Last chance 😤❤️"
   ];
 
-  showBubble(btn,msgs[no1%msgs.length]);
+  showBubble(btn,msgs[no1Count%msgs.length]);
 
-  if(no1>=10) yes1();
+  if(no1Count>=10) yes1();
 
 }
 
@@ -312,7 +312,7 @@ function no2(){
 
   const btn = event.target;
 
-  no2++;
+  no2Count++;
 
   jumpSafe(btn);
 
@@ -324,9 +324,9 @@ function no2(){
     "Don’t joke 😏"
   ];
 
-  showBubble(btn,msgs[no2%msgs.length]);
+  showBubble(btn,msgs[no2Count%msgs.length]);
 
-  if(no2>=5) yes2();
+  if(no2Count>=5) yes2();
 
 }
 
@@ -348,7 +348,7 @@ function no3(){
 
   const btn = event.target;
 
-  no3++;
+  no3Count++;
 
   jumpSafe(btn);
 
@@ -362,9 +362,9 @@ function no3(){
     "Say YES 😤❤️"
   ];
 
-  showBubble(btn,msgs[no3%msgs.length]);
+  showBubble(btn,msgs[no3Count%msgs.length]);
 
-  if(no3>=10) yes3();
+  if(no3Count>=10) yes3();
 
 }
 
