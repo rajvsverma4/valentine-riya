@@ -1,509 +1,197 @@
-/* ================= GLOBAL ================= */
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-const bgAudio = document.getElementById("bgAudio");
-const bklAudio = document.getElementById("bklAudio");
+<meta charset="UTF-8">
 
-const wnVideo = document.getElementById("wnVideo");
-const mkcVideo = document.getElementById("mkcVideo");
-const videoBox = document.getElementById("videoBox");
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-const bubble = document.getElementById("bubble");
+<title>For Riya 💖</title>
 
-const slider = document.getElementById("slider");
-const sliderText = document.getElementById("sliderText");
-const sliderMsg = document.getElementById("sliderMsg");
-const sliderGlow = document.getElementById("sliderGlow");
-const sliderRing = document.getElementById("sliderRing");
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-const app = document.getElementById("app");
-const heartRain = document.getElementById("heartRain");
+<link rel="stylesheet" href="styles.css">
 
+</head>
 
-let no1Count = 0;
-let no2Count = 0;
-let no3Count = 0;
+<body>
 
-let audioUnlocked = false;
-let bubbleTimer = null;
-let prankStarted = false;
-let ringDone = false;
 
+<!-- ================= BACKGROUND ================= -->
 
-/* ================= INIT ================= */
+<div id="heartRain"></div>
+<div id="bgGlow"></div>
 
-window.addEventListener("DOMContentLoaded", () => {
 
-  initHeartRain();
-  initFadeText();
-  initTypewriter();
-  unlockAudio();
+<!-- ================= AUDIO ================= -->
 
-});
+<audio id="bgAudio" src="assets/Background.webm" loop preload="auto"></audio>
+<audio id="bklAudio" src="assets/BKL.webm" loop preload="auto"></audio>
 
 
-/* ================= AUDIO ================= */
+<!-- ================= VIDEO BOX ================= -->
 
-function unlockAudio() {
+<div id="videoBox">
 
-  document.body.addEventListener("click", () => {
+  <!-- WN VIDEO -->
+  <video id="wnVideo"
+         src="assets/WN.mp4"
+         playsinline
+         webkit-playsinline>
+  </video>
 
-    if (!audioUnlocked) {
+  <!-- MKC VIDEO -->
+  <video id="mkcVideo"
+         src="assets/MKC.mp4"
+         muted
+         loop
+         playsinline
+         webkit-playsinline>
+  </video>
 
-      bgAudio.volume = 0.4;
-      bgAudio.play().catch(() => {});
+  <!-- FINAL OVERLAY -->
+  <div id="videoOverlay">
 
-      audioUnlocked = true;
-    }
+    <p>
+      And yes… we are certainly going on a date soon,<br>
+      <b>Shotu baby 😌💖</b><br>
+      — Raj 💖
+    </p>
 
-  }, { once: true });
+    <button onclick="replay()">
+      🔁 Replay
+    </button>
 
-}
+  </div>
 
+</div>
 
-/* ================= HEART RAIN ================= */
 
-function initHeartRain() {
+<!-- ================= POPUP ================= -->
 
-  setInterval(() => {
+<div id="bubble"></div>
 
-    const h = document.createElement("div");
 
-    h.className = "heart";
-    h.innerHTML = ["💖", "💕", "❤️", "💘"][Math.floor(Math.random() * 4)];
+<!-- ================= MAIN APP ================= -->
 
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.fontSize = 16 + Math.random() * 18 + "px";
-    h.style.animationDuration = 6 + Math.random() * 6 + "s";
+<div id="app">
 
-    heartRain.appendChild(h);
 
-    setTimeout(() => h.remove(), 12000);
+<!-- ================= SCREEN 1 ================= -->
 
-  }, 450);
+<section class="screen active" id="s1">
 
-}
+  <h2 class="fadeText">
+    Valentine is not only for relationships…<br>
+    it’s for everyone we adore 💖
+  </h2>
 
+  <p class="fadeText delay1">
+    Can I ask you something… 😌
+  </p>
 
-/* ================= TEXT ================= */
+  <h3 class="fadeText delay2">
+    Are we good friends? 🥺💗
+  </h3>
 
-function initFadeText() {
+  <div class="btns fadeText delay3">
 
-  document.querySelectorAll(".fadeText").forEach(el => {
+    <button class="yesBtn" onclick="yes1()">Yes</button>
+    <button class="noBtn"  onclick="no1()">No</button>
 
-    el.style.opacity = 0;
+  </div>
 
-    setTimeout(() => {
-      el.style.opacity = 1;
-    }, 200);
+</section>
 
-  });
 
-}
+<!-- ================= SCREEN 2 ================= -->
 
+<section class="screen" id="s2">
 
-function initTypewriter() {
+  <h2 class="typeText"
+      data-text="Do you know how special you are to me, Riya? 💗">
+  </h2>
 
-  document.querySelectorAll(".typeText").forEach(el => {
+  <div class="btns">
 
-    const text = el.dataset.text || "";
+    <button class="yesBtn" onclick="yes2()">Yes</button>
+    <button class="noBtn"  onclick="no2()">No</button>
 
-    el.textContent = "";
+  </div>
 
-    let i = 0;
+</section>
 
-    const timer = setInterval(() => {
 
-      if (i < text.length) {
-        el.textContent += text[i++];
-      } else {
-        clearInterval(timer);
-      }
+<!-- ================= SCREEN 3 ================= -->
 
-    }, 45);
+<section class="screen" id="s3">
 
-  });
+  <!-- FIXED SINGLE-LINE TEXT -->
+  <h2 class="typeText"
+      data-text="I know your time is precious… ⏳💗 But can you take out just one day to go on a date with me? 😌">
+  </h2>
 
-}
+  <h3 class="fadeText delay2">
+    Will you be my Valentine?<br>
+    (Just for one day 🥺👉👈)
+  </h3>
 
+  <div class="btns fadeText delay3">
 
-/* ================= SCREEN CONTROL ================= */
+    <button class="yesBtn" onclick="yes3()">Yes</button>
+    <button class="noBtn"  onclick="no3()">No</button>
 
-function show(id) {
+  </div>
 
-  document.querySelectorAll(".screen")
-    .forEach(s => s.classList.remove("active"));
+</section>
 
-  const next = document.getElementById(id);
-  if (next) next.classList.add("active");
 
-  initFadeText();
-  initTypewriter();
+<!-- ================= SCREEN 4 (SLIDER) ================= -->
 
-}
+<section class="screen" id="s4">
 
+  <h2 class="fadeText">
+    Unlock My Valentine World 💖✨
+  </h2>
 
-/* ================= EFFECTS ================= */
+  <p id="sliderMsg" class="fadeText delay1">
+    Slide with love 😌
+  </p>
 
-function yesEffect(btn) {
+  <div id="sliderBox">
 
-  btn.classList.add("yesPulse");
+    <input type="range"
+           id="slider"
+           min="0"
+           max="100"
+           value="0">
 
-  shakeApp();
+    <div id="sliderGlow"></div>
+    <div id="sliderRing"></div>
 
-  setTimeout(() => {
-    btn.classList.remove("yesPulse");
-  }, 500);
+  </div>
 
-}
+  <p id="sliderText">0%</p>
 
+</section>
 
-function shakeApp() {
 
-  let i = 0;
+<!-- ================= SCREEN 5 ================= -->
 
-  const t = setInterval(() => {
+<section class="screen" id="s5">
 
-    app.style.transform =
-      `translate(${Math.random() * 6 - 3}px,
-                 ${Math.random() * 6 - 3}px)`;
+  <h1 class="bigGlow">
+    SHE SAID YES 💍💖
+  </h1>
 
-    if (++i > 8) {
-      clearInterval(t);
-      app.style.transform = "translate(0,0)";
-    }
+</section>
 
-  }, 35);
 
-}
+</div>
 
 
-/* ================= POPUP ================= */
+<script src="script.js"></script>
 
-function showBubble(btn, msg) {
-
-  if (bubbleTimer) clearTimeout(bubbleTimer);
-
-  bubble.textContent = msg;
-
-  const r = btn.getBoundingClientRect();
-
-  bubble.style.left = (r.left + r.width / 2) + "px";
-  bubble.style.top = (r.bottom + 12) + "px";
-
-  bubble.classList.add("show");
-
-  bubbleTimer = setTimeout(() => {
-    bubble.classList.remove("show");
-  }, 2800);
-
-}
-
-
-/* ================= SAFE JUMP ================= */
-
-function jumpSafe(btn) {
-
-  const appBox = app.getBoundingClientRect();
-  const yesBtn = document.querySelector(".yesBtn");
-
-  let yesBox = null;
-  if (yesBtn) yesBox = yesBtn.getBoundingClientRect();
-
-  const margin = 30;
-
-  let x, y, tries = 0;
-
-  do {
-
-    x = appBox.left + margin +
-        Math.random() * (appBox.width - 140);
-
-    y = appBox.top + margin +
-        Math.random() * (appBox.height - 140);
-
-    tries++;
-
-  } while (
-    yesBox &&
-    overlapYes(x, y, yesBox) &&
-    tries < 20
-  );
-
-  btn.style.position = "fixed";
-  btn.style.left = x + "px";
-  btn.style.top = y + "px";
-
-}
-
-
-function overlapYes(x, y, yes) {
-
-  return (
-    x > yes.left - 80 &&
-    x < yes.right + 80 &&
-    y > yes.top - 80 &&
-    y < yes.bottom + 80
-  );
-
-}
-
-
-/* ================= SCREEN 1 ================= */
-
-function yes1() {
-
-  yesEffect(event.target);
-
-  setTimeout(() => {
-    show("s2");
-  }, 500);
-
-}
-
-
-function no1() {
-
-  const btn = event.target;
-
-  no1Count++;
-
-  jumpSafe(btn);
-
-  const msgs = [
-    "Don’t lie 😤💖",
-    "Try again 😏",
-    "Riyaaa please 🥺",
-    "You know it 😌",
-    "Stop teasing 😂",
-    "Just say yes 😭",
-    "My heart 💔",
-    "Last chance 😤❤️"
-  ];
-
-  showBubble(btn, msgs[no1Count % msgs.length]);
-
-  if (no1Count >= 10) yes1();
-
-}
-
-
-/* ================= SCREEN 2 ================= */
-
-function yes2() {
-
-  yesEffect(event.target);
-
-  setTimeout(() => {
-    show("s3");
-  }, 500);
-
-}
-
-
-function no2() {
-
-  const btn = event.target;
-
-  no2Count++;
-
-  jumpSafe(btn);
-
-  const msgs = [
-    "Excuse me?? 😤😂",
-    "You better know 💖",
-    "Seriously?? 😭",
-    "Press YES 😤",
-    "Don’t joke 😏"
-  ];
-
-  showBubble(btn, msgs[no2Count % msgs.length]);
-
-  if (no2Count >= 5) yes2();
-
-}
-
-
-/* ================= SCREEN 3 ================= */
-
-function yes3() {
-
-  yesEffect(event.target);
-
-  setTimeout(() => {
-    show("s4");
-  }, 500);
-
-}
-
-
-function no3() {
-
-  const btn = event.target;
-
-  no3Count++;
-
-  jumpSafe(btn);
-
-  const msgs = [
-    "Just coffee? ☕🥺",
-    "One selfie? 📸😅",
-    "30 mins? 😭",
-    "Pleaseee 💖",
-    "My heart 😔",
-    "Don’t do this 😂",
-    "Say YES 😤❤️"
-  ];
-
-  showBubble(btn, msgs[no3Count % msgs.length]);
-
-  if (no3Count >= 10) yes3();
-
-}
-
-
-/* ================= SLIDER ================= */
-
-slider.addEventListener("input", () => {
-
-  const v = Number(slider.value);
-
-  sliderText.textContent = v + "%";
-  sliderGlow.style.opacity = v / 100;
-
-  shakeApp();
-
-  if (v >= 70 && v < 80) {
-    sliderMsg.textContent = "YES YES 😍💖";
-  }
-  else if (v >= 80 && v < 90) {
-    sliderMsg.textContent = "BINGO 🔥😆";
-  }
-  else if (v >= 90 && v < 100) {
-    sliderMsg.textContent = "CONGOOO 💍💖";
-  }
-  else {
-    const msgs = [
-      "Nice 😍",
-      "Keep going 😌",
-      "Almost 💖",
-      "Don’t stop 🥺"
-    ];
-    sliderMsg.textContent = msgs[Math.floor(v / 25)];
-  }
-
-
-  if (v >= 100 && !ringDone) {
-
-    ringDone = true;
-
-    explodeRing();
-    unlockGate();
-  }
-
-});
-
-
-function explodeRing() {
-
-  sliderRing.style.display = "block";
-  sliderRing.classList.add("ringBoom");
-
-  setTimeout(() => {
-
-    sliderRing.style.display = "none";
-    sliderRing.classList.remove("ringBoom");
-
-  }, 900);
-
-}
-
-
-/* ================= PRANK ================= */
-
-function unlockGate() {
-
-  show("s5");
-
-  setTimeout(() => {
-    startPrank();
-  }, 1600);
-
-}
-
-
-function startPrank() {
-
-  if (prankStarted) return;
-  prankStarted = true;
-
-  bgAudio.pause();
-
-  videoBox.style.display = "block";
-
-  wnVideo.currentTime = 0;
-  wnVideo.style.display = "block";
-  wnVideo.play();
-
-
-  wnVideo.onended = () => {
-
-    crossFade();
-
-    wnVideo.pause();
-    wnVideo.style.display = "none";
-
-    startEnding();
-  };
-
-}
-
-
-/* ================= AUDIO FADE ================= */
-
-function crossFade() {
-
-  bklAudio.volume = 0;
-  bklAudio.play();
-
-  let v = 0;
-
-  const t = setInterval(() => {
-
-    v += 0.05;
-
-    if (v >= 0.6) {
-      v = 0.6;
-      clearInterval(t);
-    }
-
-    bklAudio.volume = v;
-
-  }, 50);
-
-}
-
-
-/* ================= END ================= */
-
-function startEnding() {
-
-  mkcVideo.style.display = "block";
-  mkcVideo.play();
-
-  show("s6");
-
-  setTimeout(() => {
-
-    const overlay = document.getElementById("finalOverlay");
-    if (overlay) overlay.style.display = "block";
-
-  }, 10000);
-
-}
-
-
-/* ================= REPLAY ================= */
-
-function replay() {
-  location.reload();
-}
+</body>
+</html>
