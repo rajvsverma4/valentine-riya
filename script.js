@@ -38,20 +38,18 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-/* ================= FULL MOBILE PRIMING (FIXED) ================= */
+/* MOBILE AUDIO/VIDEO PRIMING */
 function unlockAudio(){
     document.body.addEventListener("click", () => {
         if(!audioUnlocked){
-            // 1. Play background music
             bgAudio.volume = 0.4;
             bgAudio.play().catch(()=>{});
 
-            // 2. Full Media Prime (Load + Silent Play)
+            // UNLOCKS SOUND FOR MOBILE
             wnVideo.load();
             mkcVideo.load();
             bklAudio.load();
             
-            // Unlocks all media for mobile browsers
             wnVideo.play().then(() => wnVideo.pause()).catch(()=>{});
             mkcVideo.play().then(() => mkcVideo.pause()).catch(()=>{});
             bklAudio.play().then(() => bklAudio.pause()).catch(()=>{});
@@ -174,14 +172,16 @@ function no1(){
 function yes2(){ yesEffect(event.target); setTimeout(()=>show("s3"),500); }
 function no2(){
     no2Count++; jumpSafe(event.target);
-    showBubble(event.target, "Seriously?? 😭");
+    // RESTORED 2nd screen layers
+    const msgs=["Excuse me?? 😤😂","You better know 💖","Seriously?? 😭","Don’t joke 😏"];
+    showBubble(event.target, msgs[no2Count % msgs.length]);
     if(no2Count>=5) yes2();
 }
 
 function yes3(){ yesEffect(event.target); setTimeout(()=>show("s4"),500); }
 function no3(){
     no3Count++; jumpSafe(event.target);
-    const msgs=["Just coffee? ☕🥺","Just 30 min? ⏳", "Just 15 min? 🥺", "Please princess 👑💖", "My heart 😔", "Say YES 😤❤️"];
+    const msgs=["Just coffee? ☕🥺","Just 30 min? ⏳", "Just 15 min? 🥺", "Please princess 👑💖", "Say YES 😤❤️"];
     showBubble(event.target, msgs[no3Count % msgs.length]);
     if(no3Count>=12) yes3();
 }
@@ -214,7 +214,7 @@ function explodeRing(){
     }, 900);
 }
 
-/* ================= VIDEO (UNMUTED MOBILE) ================= */
+/* ================= VIDEO (MOBILE STABLE) ================= */
 function startPrank(){
     if(prankStarted) return;
     prankStarted = true;
@@ -267,11 +267,10 @@ function crossFadeAudio(){
 
 function startEnding(){
     mkcVideo.style.display="block";
-    mkcVideo.muted = false;
-    mkcVideo.play().catch(() => {
-        mkcVideo.muted = true;
-        mkcVideo.play();
-    });
+    // MKC remains muted
+    mkcVideo.muted = true;
+    mkcVideo.play().catch(() => {});
+    
     startFinalHearts();
     setTimeout(() => {
         videoOverlay.style.display="flex";
