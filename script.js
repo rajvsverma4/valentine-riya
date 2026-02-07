@@ -48,14 +48,13 @@ function unlockAudio(){
     }, { once: true });
 }
 
-/* ================= BACKGROUNDS ================= */
+/* ================= ANIMATIONS ================= */
 function initHeartRain(){
     setInterval(() => {
         const h = document.createElement("div");
         h.className = "heart";
         h.innerHTML = ["💖","💕","❤️","💘"][Math.floor(Math.random()*4)];
         h.style.left = Math.random()*100+"vw";
-        h.style.fontSize = 16+Math.random()*18+"px";
         h.style.animationDuration = 6+Math.random()*6+"s";
         heartRain.appendChild(h);
         setTimeout(()=>h.remove(), 12000);
@@ -68,35 +67,22 @@ function startFinalHearts(){
         h.className = "heart";
         h.innerHTML = ["💖","💕","❤️","💘","😍","🥰"][Math.floor(Math.random()*6)];
         h.style.left = Math.random()*100+"vw";
-        h.style.fontSize = 18+Math.random()*22+"px";
         h.style.animationDuration = 5+Math.random()*4+"s";
         finalHearts.appendChild(h);
         setTimeout(()=>h.remove(), 9000);
     }, 350);
 }
 
-/* ================= TEXT ANIMATIONS ================= */
 function initTypewriter(container) {
     container.querySelectorAll(".typeText").forEach(el => {
         const raw = el.dataset.text || "";
         if (el.typingInterval) clearInterval(el.typingInterval);
-
-        let chars;
-        if(window.Intl && Intl.Segmenter){
-            const seg = new Intl.Segmenter("en",{granularity:"grapheme"});
-            chars = [...seg.segment(raw)].map(s=>s.segment);
-        } else {
-            chars = Array.from(raw);
-        }
-
+        let chars = Array.from(raw);
         el.textContent = "";
         let i = 0;
         el.typingInterval = setInterval(() => {
-            if(i < chars.length){
-                el.textContent += chars[i++];
-            } else {
-                clearInterval(el.typingInterval);
-            }
+            if(i < chars.length){ el.textContent += chars[i++]; }
+            else { clearInterval(el.typingInterval); }
         }, 45);
     });
 }
@@ -108,18 +94,6 @@ function initFadeText(container) {
     });
 }
 
-/* ================= SCREEN FLOW ================= */
-function show(id){
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    const el = document.getElementById(id);
-    if(el) {
-        el.classList.add("active");
-        initFadeText(el);
-        initTypewriter(el);
-    }
-}
-
-/* RESTORED: YES button pulse and shake feedback */
 function yesEffect(btn){
     if(!btn) return;
     btn.classList.add("yesPulse");
@@ -131,18 +105,24 @@ function shakeApp(){
     let i=0;
     const t=setInterval(() => {
         app.style.transform = `translate(${Math.random()*6-3}px, ${Math.random()*6-3}px)`;
-        if(++i>8){ 
-            clearInterval(t); 
-            app.style.transform="translate(0,0)"; 
-        }
+        if(++i>8){ clearInterval(t); app.style.transform="translate(0,0)"; }
     }, 35);
+}
+
+function show(id){
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    const el = document.getElementById(id);
+    if(el) {
+        el.classList.add("active");
+        initFadeText(el);
+        initTypewriter(el);
+    }
 }
 
 function jumpSafe(btn) {
     const appBox = app.getBoundingClientRect();
     const yesBtn = document.querySelector(".screen.active .yesBtn");
     let yesBox = yesBtn ? yesBtn.getBoundingClientRect() : null;
-
     const margin = 30;
     let x, y, tries = 0;
     do {
@@ -150,7 +130,6 @@ function jumpSafe(btn) {
         y = appBox.top + margin + Math.random() * (appBox.height - 140);
         tries++;
     } while (yesBox && overlap(x, y, yesBox) && tries < 25);
-
     btn.style.position = "fixed";
     btn.style.left = x + "px";
     btn.style.top = y + "px";
@@ -170,54 +149,39 @@ function showBubble(btn, msg){
     bubbleTimer = setTimeout(() => bubble.classList.remove("show"), 2800);
 }
 
-/* ================= BUTTON ACTIONS ================= */
-function yes1(){
-    yesEffect(event.target);
-    setTimeout(()=>show("s2"),500);
-}
+/* ================= ACTIONS ================= */
+function yes1(){ yesEffect(event.target); setTimeout(()=>show("s2"),500); }
 function no1(){
     no1Count++; jumpSafe(event.target);
-    const msgs=["Don’t lie 😤💖","Try again 😏","Riyaaa please 🥺","Stop teasing 😂"];
+    const msgs=["Don’t lie 😤💖","Try again 😏","Riyaaa please 🥺","Last chance 😤❤️"];
     showBubble(event.target, msgs[no1Count % msgs.length]);
     if(no1Count>=10) yes1();
 }
 
-function yes2(){
-    yesEffect(event.target);
-    setTimeout(()=>show("s3"),500);
-}
+function yes2(){ yesEffect(event.target); setTimeout(()=>show("s3"),500); }
 function no2(){
     no2Count++; jumpSafe(event.target);
-    const msgs=["Excuse me?? 😤😂","You better know 💖","Seriously?? 😭","Don’t joke 😏"];
-    showBubble(event.target, msgs[no2Count % msgs.length]);
+    showBubble(event.target, "Seriously?? 😭");
     if(no2Count>=5) yes2();
 }
 
-function yes3(){
-    yesEffect(event.target);
-    setTimeout(()=>show("s4"),500);
-}
+function yes3(){ yesEffect(event.target); setTimeout(()=>show("s4"),500); }
 function no3(){
     no3Count++; jumpSafe(event.target);
-    const msgs=["Just coffee? ☕🥺","One selfie? 📸😅","Pleaseee 💖","Say YES 😤❤️"];
+    const msgs=["Just coffee? ☕🥺","Just 30 min? ⏳", "Just 15 min? 🥺", "Please princess 👑💖", "My heart 😔", "Say YES 😤❤️"];
     showBubble(event.target, msgs[no3Count % msgs.length]);
-    if(no3Count>=10) yes3();
+    if(no3Count>=12) yes3();
 }
 
-/* ================= SLIDER LOGIC ================= */
+/* ================= SLIDER ================= */
 slider.addEventListener("input", () => {
     const v = Number(slider.value);
     sliderText.textContent = v+"%";
     sliderGlow.style.opacity = v/100;
     shakeApp();
-
     if(v>=70 && v<80) sliderMsg.textContent="YES YES 😍💖";
-    else if(v>=80 && v<90) sliderMsg.textContent="BINGO 🔥😆";
-    else if(v>=90 && v<100) sliderMsg.textContent="CONGOOO 💍💖";
-    else {
-        const msgs=["Nice 😍","Keep going 😌","Almost 💖","Don’t stop 🥺"];
-        sliderMsg.textContent=msgs[Math.floor(v/25)];
-    }
+    else if(v>=90) sliderMsg.textContent="CONGOOO 💍💖";
+    else sliderMsg.textContent = ["Nice 😍","Keep going 😌","Almost 💖"][Math.floor(v/34)];
 
     if(v>=100 && !ringDone){
         ringDone=true;
@@ -237,7 +201,7 @@ function explodeRing(){
     }, 900);
 }
 
-/* ================= VIDEO PRANK ================= */
+/* ================= VIDEO (MOBILE STABLE) ================= */
 function startPrank(){
     if(prankStarted) return;
     prankStarted = true;
@@ -248,22 +212,26 @@ function startPrank(){
 }
 
 function waitForWN() {
-    if (wnReady) {
-        playWN();
-    } else {
-        setTimeout(waitForWN, 300);
-    }
+    if (wnReady) { playWN(); } 
+    else { setTimeout(waitForWN, 300); }
 }
 
 function playWN(){
     if(wnStarted) return;
     wnStarted = true;
-
-    // Polish: Hide loader immediately when starting
     if(videoLoader) videoLoader.style.display = "none";
-
     wnVideo.style.display="block";
-    wnVideo.play().catch(()=>{});
+    
+    // Explicit load and play for mobile stability
+    wnVideo.load();
+    let p = wnVideo.play();
+    if (p !== undefined) {
+        p.catch(() => { 
+            wnVideo.muted = true; // Fallback for strict mobile browsers
+            wnVideo.play(); 
+        });
+    }
+
     wnVideo.onended = () => {
         wnVideo.style.display="none";
         bklAudio.volume = 0;
@@ -284,9 +252,15 @@ function crossFadeAudio(){
 
 function startEnding(){
     mkcVideo.style.display="block";
-    mkcVideo.play();
+    mkcVideo.load();
+    mkcVideo.play().catch(() => {
+        mkcVideo.muted = true;
+        mkcVideo.play();
+    });
     startFinalHearts();
-    setTimeout(() => { videoOverlay.style.display="flex"; }, 5000);
+    setTimeout(() => {
+        videoOverlay.style.display="flex";
+    }, 4000);
 }
 
 function replay(){ location.reload(); }
