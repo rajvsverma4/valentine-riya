@@ -7,9 +7,13 @@
   font-family:'Poppins',sans-serif;
 }
 
-body{
-  height:100vh;
+html,body{
+  width:100%;
+  height:100%;
   overflow:hidden;
+}
+
+body{
   background:
     radial-gradient(circle at top,#ffd1dc,#ff9eb8,#ff7aa2);
 }
@@ -22,7 +26,7 @@ body{
   inset:0;
   background:
     radial-gradient(circle at center,
-    rgba(255,255,255,0.15),
+    rgba(255,255,255,0.18),
     transparent 70%);
   animation:pulse 6s infinite alternate;
   z-index:0;
@@ -30,7 +34,7 @@ body{
 
 @keyframes pulse{
   from{opacity:.4}
-  to{opacity:.8}
+  to{opacity:.85}
 }
 
 #heartRain{
@@ -45,7 +49,7 @@ body{
   position:absolute;
   top:-40px;
   animation:fall linear infinite;
-  opacity:.8;
+  opacity:.85;
 }
 
 @keyframes fall{
@@ -74,22 +78,22 @@ body{
   display:none;
   flex-direction:column;
   gap:18px;
-  background:rgba(255,255,255,.96);
-  padding:26px 22px;
-  border-radius:24px;
+  background:rgba(255,255,255,.97);
+  padding:28px 24px;
+  border-radius:26px;
   width:100%;
-  max-width:380px;
+  max-width:390px;
   text-align:center;
   box-shadow:
-    0 0 25px rgba(255,0,90,.25),
-    0 0 60px rgba(255,0,120,.15);
-  animation:pop .45s ease;
+    0 0 30px rgba(255,0,90,.28),
+    0 0 70px rgba(255,0,120,.18);
+  animation:pop .45s cubic-bezier(.25,.8,.25,1);
   position:relative;
   z-index:20;
 }
 
 @keyframes pop{
-  from{transform:scale(.92);opacity:0}
+  from{transform:scale(.9);opacity:0}
   to{transform:scale(1);opacity:1}
 }
 
@@ -102,13 +106,13 @@ body{
 
 h1,h2,h3,p{
   color:#ff2e6f;
-  line-height:1.45;
+  line-height:1.5;
 }
 
-h1{font-size:1.8rem}
-h2{font-size:1.2rem}
-h3{font-size:1.05rem}
-p{font-size:.95rem}
+h1{font-size:1.9rem;font-weight:700}
+h2{font-size:1.25rem;font-weight:600}
+h3{font-size:1.1rem;font-weight:500}
+p{font-size:1rem}
 
 
 /* ================= FADE ================= */
@@ -132,21 +136,22 @@ p{font-size:.95rem}
 .btns{
   display:flex;
   justify-content:center;
-  gap:14px;
+  gap:16px;
   position:relative;
   z-index:30;
 }
 
 button{
-  background:linear-gradient(135deg,#ff4f7c,#ff8fab);
+  background:linear-gradient(135deg,#ff3b6f,#ff8fab);
   color:white;
   border:none;
-  padding:10px 22px;
-  border-radius:30px;
+  padding:11px 24px;
+  border-radius:32px;
   font-size:15px;
+  font-weight:500;
   cursor:pointer;
   box-shadow:
-    0 0 12px rgba(255,79,124,.6),
+    0 0 15px rgba(255,79,124,.7),
     inset 0 0 6px rgba(255,255,255,.4);
   transition:.25s;
   position:relative;
@@ -154,13 +159,13 @@ button{
 }
 
 button:hover{
-  transform:scale(1.15);
+  transform:scale(1.18);
   box-shadow:
-    0 0 25px rgba(255,79,124,.9);
+    0 0 30px rgba(255,79,124,1);
 }
 
 button:active{
-  transform:scale(.95);
+  transform:scale(.94);
 }
 
 .yesPulse{
@@ -169,7 +174,7 @@ button:active{
 
 @keyframes yesPulse{
   0%{transform:scale(1)}
-  50%{transform:scale(1.25)}
+  50%{transform:scale(1.28)}
   100%{transform:scale(1)}
 }
 
@@ -178,16 +183,16 @@ button:active{
 
 #bubble{
   position:fixed;
-  padding:8px 14px;
+  padding:9px 16px;
   background:white;
-  border-radius:18px;
+  border-radius:20px;
   font-size:13px;
   font-weight:600;
   color:#ff245a;
-  box-shadow:0 0 15px rgba(255,105,135,.8);
+  box-shadow:0 0 18px rgba(255,105,135,.9);
   pointer-events:none;
   opacity:0;
-  transform:translateX(-50%) scale(.75);
+  transform:translateX(-50%) scale(.7);
   transition:.25s ease;
   z-index:9999;
   white-space:nowrap;
@@ -213,13 +218,13 @@ button:active{
 #sliderBox{
   position:relative;
   width:100%;
-  margin:15px 0;
+  margin:18px 0;
   z-index:30;
 }
 
 #slider{
   width:100%;
-  height:28px;
+  height:30px;
   appearance:none;
   border-radius:25px;
   background:linear-gradient(
@@ -229,10 +234,10 @@ button:active{
     #ff9eb8,
     #ff004c);
   background-size:300% 100%;
-  animation:flow 4s linear infinite;
+  animation:flow 3.5s linear infinite;
   outline:none;
   box-shadow:
-    0 0 15px rgba(255,0,80,.6);
+    0 0 18px rgba(255,0,80,.7);
 }
 
 @keyframes flow{
@@ -241,35 +246,71 @@ button:active{
 
 #slider::-webkit-slider-thumb{
   appearance:none;
-  width:34px;
-  height:34px;
+  width:36px;
+  height:36px;
   border-radius:50%;
   background:radial-gradient(circle,#fff,#ff004c);
   border:2px solid white;
   box-shadow:
-    0 0 18px #ff004c,
-    0 0 35px pink;
+    0 0 22px #ff004c,
+    0 0 40px pink;
   cursor:pointer;
 }
 
 #slider::-moz-range-thumb{
-  width:34px;
-  height:34px;
+  width:36px;
+  height:36px;
   border-radius:50%;
   background:#ff004c;
   border:2px solid white;
 }
 
+
+/* Glow */
+
 #sliderGlow{
   position:absolute;
-  inset:-8px;
-  border-radius:30px;
+  inset:-10px;
+  border-radius:32px;
   background:
     radial-gradient(circle,
-    rgba(255,0,80,.45),
+    rgba(255,0,80,.5),
     transparent 70%);
   opacity:0;
   pointer-events:none;
+}
+
+
+/* Explosion Ring */
+
+#sliderRing{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:20px;
+  height:20px;
+  border:3px solid rgba(255,0,90,.9);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  display:none;
+  pointer-events:none;
+}
+
+.ringBoom{
+  animation:ringBoom .8s ease-out forwards;
+}
+
+@keyframes ringBoom{
+  from{
+    width:20px;
+    height:20px;
+    opacity:1;
+  }
+  to{
+    width:260px;
+    height:260px;
+    opacity:0;
+  }
 }
 
 
@@ -284,10 +325,10 @@ button:active{
   max-width:360px;
   aspect-ratio:16/9;
   background:black;
-  border-radius:18px;
+  border-radius:20px;
   overflow:hidden;
   display:none;
-  box-shadow:0 0 35px rgba(255,0,90,.6);
+  box-shadow:0 0 40px rgba(255,0,90,.7);
   z-index:200;
 }
 
@@ -302,20 +343,21 @@ button:active{
 /* ================= FINAL ================= */
 
 #finalOverlay{
-  background:rgba(0,0,0,.65);
+  background:rgba(0,0,0,.7);
   color:white;
-  padding:14px 18px;
-  border-radius:16px;
-  font-size:14px;
-  margin-bottom:10px;
+  padding:16px 20px;
+  border-radius:18px;
+  font-size:15px;
+  margin-bottom:12px;
   animation:fade 1.5s forwards;
   z-index:40;
 }
 
 #replayBtn{
-  background:linear-gradient(135deg,#ff3c6f,#ff9eb8);
-  padding:10px 26px;
+  background:linear-gradient(135deg,#ff2f66,#ff9eb8);
+  padding:11px 28px;
   font-size:15px;
+  font-weight:500;
   z-index:45;
 }
 
@@ -324,10 +366,14 @@ button:active{
 
 @media(max-width:360px){
 
-  h2{font-size:1.05rem}
+  h2{font-size:1.1rem}
 
   button{
     font-size:14px;
-    padding:9px 18px;
+    padding:9px 20px;
+  }
+
+  #videoBox{
+    max-width:320px;
   }
 }
