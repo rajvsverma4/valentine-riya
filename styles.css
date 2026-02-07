@@ -58,6 +58,32 @@ body{
 }
 
 
+/* ================= PAGE FLASH ================= */
+
+#pageFlash{
+  position:fixed;
+  inset:0;
+
+  background:radial-gradient(circle,#fff,#ff4f7c,#ff004c);
+
+  opacity:0;
+
+  pointer-events:none;
+
+  z-index:99999;
+}
+
+.flash{
+  animation:flash .6s ease-out;
+}
+
+@keyframes flash{
+  0%{opacity:0}
+  40%{opacity:.85}
+  100%{opacity:0}
+}
+
+
 /* ================= MAIN APP ================= */
 
 #app{
@@ -348,8 +374,8 @@ button:active{
     opacity:1;
   }
   to{
-    width:260px;
-    height:260px;
+    width:280px;
+    height:280px;
     opacity:0;
   }
 }
@@ -365,20 +391,22 @@ button:active{
 
   transform:translate(-50%,-50%);
 
-  width:90%;
-  max-width:360px;
+  width:92%;
+  max-width:380px;
 
   aspect-ratio:16/9;
 
   background:black;
 
-  border-radius:18px;
+  border-radius:20px;
 
   overflow:hidden;
 
   display:none;
 
-  box-shadow:0 0 35px rgba(255,0,90,.7);
+  box-shadow:
+    0 0 25px rgba(255,0,90,.7),
+    0 0 60px rgba(255,0,120,.4);
 
   z-index:200;
 }
@@ -393,6 +421,32 @@ button:active{
 }
 
 
+/* ================= VIDEO LOADER ================= */
+
+#videoLoader{
+  position:absolute;
+  inset:0;
+
+  background:rgba(0,0,0,.75);
+
+  color:white;
+
+  font-size:15px;
+  font-weight:500;
+
+  display:none;
+
+  justify-content:center;
+  align-items:center;
+
+  text-align:center;
+
+  z-index:400;
+
+  backdrop-filter:blur(2px);
+}
+
+
 /* ================= VIDEO OVERLAY ================= */
 
 #videoOverlay{
@@ -401,26 +455,26 @@ button:active{
   left:0;
 
   width:100%;
-  min-height:35%;
+  height:38%;
 
   background:linear-gradient(
     to top,
-    rgba(0,0,0,.85),
-    rgba(0,0,0,.4),
+    rgba(0,0,0,.92),
+    rgba(0,0,0,.6),
     transparent
   );
 
   color:white;
 
-  display:none; /* JS controls */
+  display:none;
 
   flex-direction:column;
-  justify-content:center;
+  justify-content:flex-end;
   align-items:center;
 
   text-align:center;
 
-  padding:15px 12px;
+  padding:18px 14px;
 
   z-index:500;
 }
@@ -434,7 +488,7 @@ button:active{
 
   margin-bottom:12px;
 
-  text-shadow:0 0 8px rgba(255,255,255,.3);
+  text-shadow:0 0 10px rgba(255,255,255,.3);
 }
 
 
@@ -446,7 +500,7 @@ button:active{
   border:none;
   border-radius:25px;
 
-  padding:8px 20px;
+  padding:8px 22px;
 
   font-size:14px;
   font-weight:600;
@@ -455,14 +509,14 @@ button:active{
 
   cursor:pointer;
 
-  box-shadow:0 0 15px rgba(255,0,90,.7);
+  box-shadow:0 0 18px rgba(255,0,90,.8);
 
   transition:.25s;
 }
 
 #videoOverlay button:hover{
   transform:scale(1.1);
-  box-shadow:0 0 25px rgba(255,0,90,1);
+  box-shadow:0 0 28px rgba(255,0,90,1);
 }
 
 #videoOverlay button:active{
@@ -482,6 +536,10 @@ button:active{
   }
 
   #videoBox{
-    max-width:320px;
+    max-width:330px;
+  }
+
+  #videoOverlay{
+    height:42%;
   }
 }
