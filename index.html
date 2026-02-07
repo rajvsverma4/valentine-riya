@@ -1,232 +1,102 @@
-/* ================= GLOBAL ================= */
-const bgAudio = document.getElementById("bgAudio");
-const bklAudio = document.getElementById("bklAudio");
-const wnVideo = document.getElementById("wnVideo");
-const mkcVideo = document.getElementById("mkcVideo");
-const videoBox = document.getElementById("videoBox");
-const videoOverlay = document.getElementById("videoOverlay");
-const videoLoader = document.getElementById("videoLoader");
-const bubble = document.getElementById("bubble");
-const slider = document.getElementById("slider");
-const sliderText = document.getElementById("sliderText");
-const sliderMsg = document.getElementById("sliderMsg");
-const sliderGlow = document.getElementById("sliderGlow");
-const sliderRing = document.getElementById("sliderRing");
-const pageFlash = document.getElementById("pageFlash");
-const finalHearts = document.getElementById("finalHearts");
-const app = document.getElementById("app");
-const heartRain = document.getElementById("heartRain");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Riya 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-let no1Count = 0, no2Count = 0, no3Count = 0;
-let audioUnlocked = false, bubbleTimer = null;
-let prankStarted = false, ringDone = false;
-let wnReady = false, wnStarted = false;
+<div id="heartRain"></div>
+<div id="bgGlow"></div>
 
-/* ================= INIT ================= */
-window.addEventListener("DOMContentLoaded", () => {
-    initHeartRain();
-    unlockAudio();
-    
-    if(videoOverlay) videoOverlay.style.display = "none";
-    if(videoLoader)  videoLoader.style.display  = "none";
+<audio id="bgAudio" src="assets/Background.webm" loop preload="auto"></audio>
+<audio id="bklAudio" src="assets/BKL.webm" loop preload="auto"></audio>
 
-    if(wnVideo){
-        wnVideo.addEventListener("canplaythrough", () => {
-            wnReady = true;
-            if(videoLoader) videoLoader.style.display = "none";
-        });
-    }
-});
+<div id="videoBox">
+    <div id="videoLoader">Loading surprise… 💖😌</div>
 
-/* ================= AUDIO ================= */
-function unlockAudio(){
-    document.body.addEventListener("click", () => {
-        if(!audioUnlocked){
-            bgAudio.volume = 0.4;
-            bgAudio.play().catch(()=>{});
-            audioUnlocked = true;
-        }
-    }, { once: true });
-}
+    <video id="wnVideo" 
+           src="assets/WN.mp4" 
+           preload="auto" 
+           playsinline 
+           webkit-playsinline>
+    </video>
 
-/* ================= HEART RAIN ================= */
-function initHeartRain(){
-    setInterval(() => {
-        const h = document.createElement("div");
-        h.className = "heart";
-        h.innerHTML = ["💖","💕","❤️","💘"][Math.floor(Math.random()*4)];
-        h.style.left = Math.random()*100+"vw";
-        h.style.fontSize = 16+Math.random()*18+"px";
-        h.style.animationDuration = 6+Math.random()*6+"s";
-        heartRain.appendChild(h);
-        setTimeout(()=>h.remove(), 12000);
-    }, 450);
-}
+    <video id="mkcVideo" 
+           src="assets/MKC.mp4" 
+           preload="auto" 
+           muted 
+           loop 
+           playsinline 
+           webkit-playsinline>
+    </video>
 
-/* ================= TYPEWRITER (FIXED) ================= */
-function initTypewriter(container = document) {
-    container.querySelectorAll(".typeText").forEach(el => {
-        const raw = el.dataset.text || "";
-        if (el.typingInterval) clearInterval(el.typingInterval);
+    <div id="videoOverlay">
+        <p>
+            And yes… we are certainly going on a date soon,<br>
+            <b>Shotu baby 😌💖</b><br>
+            — Raj 💖
+        </p>
+        <button onclick="replay()">🔁 Replay</button>
+    </div>
+</div>
 
-        let chars;
-        if(window.Intl && Intl.Segmenter){
-            const seg = new Intl.Segmenter("en",{granularity:"grapheme"});
-            chars = [...seg.segment(raw)].map(s=>s.segment);
-        } else {
-            chars = Array.from(raw);
-        }
+<div id="pageFlash"></div>
+<div id="bubble"></div>
+<div id="finalHearts"></div>
 
-        el.textContent = "";
-        let i = 0;
-        el.typingInterval = setInterval(() => {
-            if(i < chars.length){
-                el.textContent += chars[i++];
-            } else {
-                clearInterval(el.typingInterval);
-            }
-        }, 45);
-    });
-}
+<div id="app">
 
-function initFadeText(container = document) {
-    container.querySelectorAll(".fadeText").forEach(el => {
-        el.style.opacity = 0;
-        setTimeout(() => { el.style.opacity = 1; }, 50);
-    });
-}
+    <section class="screen active" id="s1">
+        <h2 class="fadeText">
+            Valentine is not only for relationships…<br>
+            it’s for everyone we adore 💖
+        </h2>
+        <p class="fadeText delay1">Can I ask you something… 😌</p>
+        <h3 class="fadeText delay2">Are we good friends? 🥺💗</h3>
+        <div class="btns fadeText delay3">
+            <button class="yesBtn" onclick="yes1()">Yes</button>
+            <button class="noBtn" onclick="no1()">No</button>
+        </div>
+    </section>
 
-/* ================= SCREEN LOGIC ================= */
-function show(id){
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    const el = document.getElementById(id);
-    if(el) {
-        el.classList.add("active");
-        initFadeText(el);
-        initTypewriter(el);
-    }
-}
+    <section class="screen" id="s2">
+        <h2 class="typeText" data-text="Do you know how special you are to me, Riya? 💗"></h2>
+        <div class="btns">
+            <button class="yesBtn" onclick="yes2()">Yes</button>
+            <button class="noBtn" onclick="no2()">No</button>
+        </div>
+    </section>
 
-/* ================= BUTTON EFFECTS ================= */
-function yesEffect(btn){
-    btn.classList.add("yesPulse");
-    shakeApp();
-    setTimeout(() => btn.classList.remove("yesPulse"), 500);
-}
+    <section class="screen" id="s3">
+        <h2 class="typeText" data-text="I know your time is precious… ⏳💗 But can you take out just one day to go on a date with me? 😌"></h2>
+        <h3 class="fadeText delay2">Will you be my Valentine?<br>(Just for one day 🥺👉👈)</h3>
+        <div class="btns fadeText delay3">
+            <button class="yesBtn" onclick="yes3()">Yes</button>
+            <button class="noBtn" onclick="no3()">No</button>
+        </div>
+    </section>
 
-function shakeApp(){
-    let i=0;
-    const t=setInterval(() => {
-        app.style.transform = `translate(${Math.random()*6-3}px, ${Math.random()*6-3}px)`;
-        if(++i>8){
-            clearInterval(t);
-            app.style.transform="translate(0,0)";
-        }
-    }, 35);
-}
+    <section class="screen" id="s4">
+        <h2 class="fadeText">Unlock My Valentine World 💖✨</h2>
+        <p id="sliderMsg" class="fadeText delay1">Slide with love 😌</p>
+        <div id="sliderBox">
+            <input type="range" id="slider" min="0" max="100" value="0">
+            <div id="sliderGlow"></div>
+            <div id="sliderRing"></div>
+        </div>
+        <p id="sliderText">0%</p>
+    </section>
 
-function showBubble(btn, msg){
-    if(bubbleTimer) clearTimeout(bubbleTimer);
-    bubble.textContent = msg;
-    const r = btn.getBoundingClientRect();
-    bubble.style.left = (r.left+r.width/2)+"px";
-    bubble.style.top  = (r.bottom+12)+"px";
-    bubble.classList.add("show");
-    bubbleTimer = setTimeout(() => bubble.classList.remove("show"), 2800);
-}
+    <section class="screen" id="s5">
+        <h1 class="bigGlow">SHE SAID YES 💍💖</h1>
+    </section>
 
-function jumpSafe(btn){
-    const appBox = app.getBoundingClientRect();
-    const margin = 30;
-    let x = appBox.left + margin + Math.random()*(appBox.width-140);
-    let y = appBox.top + margin + Math.random()*(appBox.height-140);
-    btn.style.position = "fixed";
-    btn.style.left = x + "px";
-    btn.style.top = y + "px";
-}
+</div>
 
-/* SCREEN ACTIONS */
-function yes1(){ yesEffect(event.target); setTimeout(()=>show("s2"),500); }
-function no1(){ 
-    no1Count++; jumpSafe(event.target); 
-    const msgs=["Don’t lie 😤💖","Try again 😏","Riyaaa please 🥺","Last chance 😤❤️"];
-    showBubble(event.target, msgs[no1Count%msgs.length]);
-    if(no1Count>=10) yes1();
-}
-
-function yes2(){ yesEffect(event.target); setTimeout(()=>show("s3"),500); }
-function no2(){
-    no2Count++; jumpSafe(event.target);
-    showBubble(event.target, "Seriously?? 😭");
-    if(no2Count>=5) yes2();
-}
-
-function yes3(){ yesEffect(event.target); setTimeout(()=>show("s4"),500); }
-function no3(){
-    no3Count++; jumpSafe(event.target);
-    showBubble(event.target, "Pleaseee 💖");
-    if(no3Count>=10) yes3();
-}
-
-/* ================= SLIDER & VIDEO ================= */
-slider.addEventListener("input", () => {
-    const v = Number(slider.value);
-    sliderText.textContent = v+"%";
-    sliderGlow.style.opacity = v/100;
-    if(v>=100 && !ringDone){
-        ringDone=true;
-        explodeRing();
-        show("s5");
-        setTimeout(startPrank, 1600);
-    }
-});
-
-function explodeRing(){
-    sliderRing.style.display="block";
-    sliderRing.classList.add("ringBoom");
-    pageFlash.classList.add("flash");
-    setTimeout(() => {
-        pageFlash.classList.remove("flash");
-        sliderRing.style.display="none";
-    }, 900);
-}
-
-function startPrank(){
-    if(prankStarted) return;
-    prankStarted = true;
-    bgAudio.pause();
-    videoBox.style.display = "block";
-    playWN();
-}
-
-function playWN(){
-    if(wnStarted) return;
-    wnStarted = true;
-    wnVideo.style.display="block";
-    wnVideo.play().catch(()=>{});
-    wnVideo.onended = () => {
-        wnVideo.style.display="none";
-        bklAudio.play();
-        startEnding();
-    };
-}
-
-function startEnding(){
-    mkcVideo.style.display="block";
-    mkcVideo.play();
-    startFinalHearts();
-    setTimeout(() => { videoOverlay.style.display="flex"; }, 5000);
-}
-
-function startFinalHearts(){
-    setInterval(() => {
-        const h = document.createElement("div");
-        h.className = "heart";
-        h.innerHTML = ["💖","😍","🥰"][Math.floor(Math.random()*3)];
-        h.style.left = Math.random()*100+"vw";
-        finalHearts.appendChild(h);
-        setTimeout(()=>h.remove(), 9000);
-    }, 350);
-}
-
-function replay(){ location.reload(); }
+<script src="script.js"></script>
+</body>
+</html>
